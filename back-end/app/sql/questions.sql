@@ -25,7 +25,8 @@ CREATE TABLE testpaper(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     duration TEXT NOT NULL,
     name TEXT NOT NULL,
-    passline REAL NOT NULL
+    passline REAL NOT NULL,
+    created TEXT NOT NULL
 );
 
 CREATE TABLE testpaper_question(

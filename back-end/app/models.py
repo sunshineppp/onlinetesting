@@ -34,6 +34,7 @@ class Testpaper(db.Model):
     duration = db.Column(db.Text, nullable=False)
     name = db.Column(db.Text, nullable=False)
     passline = db.Column(db.Float, nullable=False)
+    created = db.Column(db.Text, nullable=False)
 
 
 
