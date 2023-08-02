@@ -13,7 +13,7 @@ CREATE TABLE question(
 CREATE TABLE answer(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     content TEXT NOT NULL,
-    corrent INTEGER NOT NULL,
+    correct INTEGER NOT NULL,
     question_id INTEGER NOT NULL,
     FOREIGN KEY (question_id) REFERENCES question (id)
 );

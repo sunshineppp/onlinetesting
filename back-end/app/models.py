@@ -8,7 +8,7 @@ class Answer(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
-    corrent = db.Column(db.Integer, nullable=False)
+    correct = db.Column(db.Integer, nullable=False)
     question_id = db.Column(db.ForeignKey('question.id'), nullable=False)
 
     question = db.relationship('Question', primaryjoin='Answer.question_id == Question.id', backref='answers')
