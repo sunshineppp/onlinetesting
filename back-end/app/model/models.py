@@ -1,6 +1,7 @@
 # coding: utf-8
 from flask_sqlalchemy import SQLAlchemy
 from app import db
+from app.model import enums
 
 
 class Answer(db.Model):
@@ -21,8 +22,8 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
     analysis = db.Column(db.Text, nullable=False)
-    type = db.Column(db.Text, nullable=False)
-    level = db.Column(db.Text, nullable=False)
+    type = db.Column(db.Enum(enums.QuestionType), nullable=False)
+    level = db.Column(db.Enum(enums.QuestionLevel), nullable=False)
     point = db.Column(db.Float, nullable=False)
 
 

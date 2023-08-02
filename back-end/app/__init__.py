@@ -17,6 +17,9 @@ def create_app(config_class=Config):
     from app.api import bp as api_bp
     app.register_blueprint(api_bp, url_prefix='/api')
 
+    from app.api import question_blueprint as api_question
+    app.register_blueprint(api_question)
+
     return app
 
-from app import models
+from app.model import models
