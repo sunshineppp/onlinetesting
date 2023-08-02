@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS testpaper_question;
 
 CREATE TABLE testpaper(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    duration INTEGER NOT NULL,
+    duration TEXT NOT NULL,
     name TEXT NOT NULL,
     passline REAL NOT NULL
 );

@@ -31,7 +31,7 @@ class Testpaper(db.Model):
     __tablename__ = 'testpaper'
 
     id = db.Column(db.Integer, primary_key=True)
-    duration = db.Column(db.Integer, nullable=False)
+    duration = db.Column(db.Text, nullable=False)
     name = db.Column(db.Text, nullable=False)
     passline = db.Column(db.Float, nullable=False)
 
