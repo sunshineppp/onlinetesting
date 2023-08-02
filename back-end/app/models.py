@@ -23,3 +23,4 @@ class Question(db.Model):
     analysis = db.Column(db.Text, nullable=False)
     type = db.Column(db.Text, nullable=False)
     level = db.Column(db.Text, nullable=False)
+    point = db.Column(db.Float, nullable=False)
