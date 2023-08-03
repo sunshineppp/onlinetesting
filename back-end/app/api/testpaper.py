@@ -1,8 +1,10 @@
 from app.api import testpaper_blueprint as bp
 from app.model.models import Testpaper, TestpaperQuestion, Question, Answer
-from app.utils import util
+from app.utils import questionUtil, testpaperUtil
 from app import db
 from flask import request, jsonify
+from time import strptime, strftime, localtime
+from sqlalchemy import exc
 
 @bp.route('/', methods = ('GET',))
 def getPapers():
@@ -20,45 +22,78 @@ def getPapers():
 
 @bp.route('/<int:id>', methods=('GET',))
 def getOnePaper(id):
-    paper = db.session.query(Testpaper).with_entities(
-        Testpaper.id,
-        Testpaper.duration,
-        Testpaper.name,
-        Testpaper.passline,
-        Testpaper.created
-    ).filter(Testpaper.id == id).first()
+    try:
+        paper = testpaperUtil.getPaperUtil(id)
+    except Exception as e:
+        return e.args
 
-    if paper is None:
-        return 'Testpaper not found', 404
+    return jsonify(paper)
+
+@bp.route('/generate', methods = ('POST',))
+def createPaper():
+
+    request_data = request.get_json()
+    
+    try:
+        duration = request_data['duration'] 
+        name = request_data['name']
+    except KeyError:
+        return 'Test paper info missing', 400
+
+    if None not in (duration, name):
+        pass
     else:
-        paper = dict(paper._mapping)
-        questions = db.session.query(TestpaperQuestion).join(
-            Question,
-            TestpaperQuestion.question_id == Question.id).filter(
-                TestpaperQuestion.testpaper_id == id
-            ).with_entities(
-                Question.id,
-                Question.content,
-                Question.analysis,
-                Question.type, 
-                Question.level,
-                Question.point
-            ).all()
-        questions = list(map(util.convertQuestion, questions))
+        return 'Test paper info missing', 400
 
-        for question in questions:
-            answers = db.session.query(Answer).with_entities(
-                Answer.id,
-                Answer.content,
-                Answer.correct
-            ).filter(Answer.question_id == question['id']).all()
-            answers = list(map(lambda answer: dict(answer._mapping), answers))
-            question['answers'] = answers
-        
-        paper['questions'] = questions
-        return jsonify(paper)
+    try:
+        strptime(duration, "%H:%M:%S")
+    except ValueError:
+        return 'Test duration format is wrong', 400
+    
+    created = strftime("%a, %d %b %Y %H:%M:%S", localtime())
 
+    # question_ids = generate_questions()
 
+    question_ids = [1, 2, 3]   
 
+    total_point = 0.0
 
+    for question_id in question_ids:
+        question = db.session.query(Question).filter(Question.id == question_id).first()
+        total_point += question.point
+    
+    passline = total_point * 0.6
 
+    testpaper = Testpaper(
+        duration = duration,
+        name = name,
+        created = created,
+        passline = passline
+    )
+
+    try:
+        db.session.add(testpaper)
+    except exc.SQLAlchemyError:
+        return 'failed to add test paper', 400
+    
+    db.session.flush()
+    testpaper_id = testpaper.id
+
+    for question_id in question_ids:
+        testpaperQuestion = TestpaperQuestion(
+            question_id = question_id,
+            testpaper_id = testpaper_id
+        )
+        try:
+            db.session.add(testpaperQuestion)
+        except exc.SQLAlchemyError:
+            return 'failed to add test paper', 400
+    
+    db.session.commit()
+
+    try:
+        paper = testpaperUtil.getPaperUtil(testpaper_id)
+    except Exception as e:
+        return e.args
+    
+    return jsonify(paper)

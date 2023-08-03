@@ -2,7 +2,7 @@ from app.api import question_blueprint as bp
 from flask import request, jsonify
 from app import db
 from app.model.models import Question, Answer
-from app.utils import util
+from app.utils import questionUtil
 from sqlalchemy import exc
 
 @bp.route('/', methods = ('GET',))
@@ -15,7 +15,7 @@ def getQuestions():
         Question.level,
         Question.point
     ).all()
-    questions = list(map(util.convertQuestion, questions))
+    questions = list(map(questionUtil.convertQuestion, questions))
     
     for question in questions:
         answers = db.session.query(Answer).with_entities(
@@ -42,7 +42,7 @@ def getOneQuestion(id):
     if question is None:
         return 'Question not found', 404
     else:
-        question = util.convertQuestion(question)
+        question = questionUtil.convertQuestion(question)
         answers = db.session.query(Answer).with_entities(
             Answer.id,
             Answer.content,
@@ -57,7 +57,7 @@ def createQuestion():
     request_data = request.get_json()
 
     try:
-        question, answers = util.checkQuestion(request_data)
+        question, answers = questionUtil.checkQuestion(request_data)
     except Exception as e:
         return e.args
 
@@ -91,7 +91,7 @@ def deleteQuestion(id):
 def updateQuestion(id):
     request_data = request.get_json()
     try:
-        question, answers = util.checkQuestion(request_data, check_id=True)
+        question, answers = questionUtil.checkQuestion(request_data, check_id=True)
     except Exception as e:
         return e.args
     
