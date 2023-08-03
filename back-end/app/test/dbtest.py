@@ -2,8 +2,8 @@ from app.model.models import Question, Answer, Testpaper, TestpaperQuestion
 from sqlalchemy import exc
 from .. import create_app
 from .. import db
-import time
-import datetime
+from datetime import timedelta
+from time import localtime, strftime
 
 if __name__ == "__main__":
 
@@ -13,6 +13,8 @@ if __name__ == "__main__":
 
         db.session.query(Question).delete()
         db.session.query(Answer).delete()
+        db.session.query(Testpaper).delete()
+        db.session.query(TestpaperQuestion).delete()
 
         question = Question(
             id = 1,
@@ -104,24 +106,55 @@ if __name__ == "__main__":
         db.session.add(answer)
         db.session.commit()
 
+        paper = Testpaper(
+            id = 1,
+            duration = str(timedelta(hours=2, minutes=30)),
+            name = 'Test 1',
+            passline = 60.0,
+            created = strftime("%a, %d %b %Y %H:%M:%S", localtime())
+        )
 
-        # answer = db.session.query(Answer).join(Question, Answer.question_id == Question.id) \
-        #     .with_entities(Question.content.label('qcontent'), Question.analysis, Question.point, Answer.content.label('acontent')).first()
+        db.session.add(paper)
+        db.session.commit()
+
+        paperQuestion = TestpaperQuestion(
+            id = 1,
+            question_id = 1,
+            testpaper_id = 1,
+        )
+        db.session.add(paperQuestion)
         
-        # print(answer._mapping)
+        paperQuestion = TestpaperQuestion(
+            id = 2,
+            question_id = 2,
+            testpaper_id = 1
+        )
+        db.session.add(paperQuestion)
+        db.session.commit()
 
+        paper = Testpaper(
+            id = 2,
+            duration = str(timedelta(hours=2)),
+            name = 'Test 2',
+            passline = 70.0,
+            created = strftime("%a, %d %b %Y %H:%M:%S", localtime())
+        )
         
-        # testpaper = Testpaper(
-        #     name = 'data structure test',
-        #     passline = 60.0,
-        #     duration = '2:00:00'
-        # )
+        db.session.add(paper)
+        db.session.commit()
 
-        # db.session.add(testpaper)
-        # db.session.commit()
+        paperQuestion = TestpaperQuestion(
+            id = 3,
+            question_id = 2,
+            testpaper_id = 2,
+        )
+        db.session.add(paperQuestion)
+        
+        paperQuestion = TestpaperQuestion(
+            id = 4,
+            question_id = 3,
+            testpaper_id = 2
+        )
+        db.session.add(paperQuestion)
+        db.session.commit()
 
-        # papers = db.session.query(Testpaper).all()
-        # for paper in papers:
-        #     print(paper.name)
-        #     print(paper.passline)
-        #     print(paper.duration)
