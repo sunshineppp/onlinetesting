@@ -10,3 +10,7 @@ class QuestionLevel(enum.Enum):
     easy = 0
     medium = 1
     hard = 2
+
+class AnswerCorrect(enum.Enum):
+    false = 0
+    true = 1
