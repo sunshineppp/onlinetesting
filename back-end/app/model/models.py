@@ -1,6 +1,7 @@
 # coding: utf-8
 from flask_sqlalchemy import SQLAlchemy
 from app import db
+from app.model import enums
 
 
 class Answer(db.Model):
@@ -8,7 +9,7 @@ class Answer(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
-    correct = db.Column(db.Integer, nullable=False)
+    correct = db.Column(db.Integer, nullable = False)
     question_id = db.Column(db.ForeignKey('question.id'), nullable=False)
 
     question = db.relationship('Question', primaryjoin='Answer.question_id == Question.id', backref='answers')
@@ -21,8 +22,8 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
     analysis = db.Column(db.Text, nullable=False)
-    type = db.Column(db.Text, nullable=False)
-    level = db.Column(db.Text, nullable=False)
+    type = db.Column(db.Enum(enums.QuestionType), nullable=False)
+    level = db.Column(db.Enum(enums.QuestionLevel), nullable=False)
     point = db.Column(db.Float, nullable=False)
 
 
@@ -34,6 +35,7 @@ class Testpaper(db.Model):
     duration = db.Column(db.Text, nullable=False)
     name = db.Column(db.Text, nullable=False)
     passline = db.Column(db.Float, nullable=False)
+    created = db.Column(db.Text, nullable=False)
 
 
 

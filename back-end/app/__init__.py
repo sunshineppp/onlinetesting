@@ -13,10 +13,12 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
 
-    # 注册 blueprint
-    from app.api import bp as api_bp
-    app.register_blueprint(api_bp, url_prefix='/api')
+    from app.api import question_blueprint as api_question
+    app.register_blueprint(api_question)
+
+    from app.api import testpaper_blueprint as api_testpaper
+    app.register_blueprint(api_testpaper)
 
     return app
 
-from app import models
+from app.model import models
