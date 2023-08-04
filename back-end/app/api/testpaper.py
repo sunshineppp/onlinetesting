@@ -97,3 +97,10 @@ def createPaper():
         return e.args
     
     return jsonify(paper)
+
+@bp.route('/delete/<int:id>', methods=('DELETE',))
+def deletePaper(id):
+    db.session.query(TestpaperQuestion).filter(TestpaperQuestion.testpaper_id == id).delete()
+    db.session.query(Testpaper).filter(Testpaper.id == id).delete()
+    db.session.commit()
+    return 'delete success', 200
