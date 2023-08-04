@@ -29,7 +29,7 @@ def getOnePaper(id):
 
     return jsonify(paper)
 
-@bp.route('/generate', methods = ('POST',))
+@bp.route('/create', methods = ('POST',))
 def createPaper():
 
     request_data = request.get_json()
@@ -37,6 +37,7 @@ def createPaper():
     try:
         duration = request_data['duration'] 
         name = request_data['name']
+        question_ids = request_data['questionID']
     except KeyError:
         return 'Test paper info missing', 400
 
@@ -49,12 +50,11 @@ def createPaper():
         strptime(duration, "%H:%M:%S")
     except ValueError:
         return 'Test duration format is wrong', 400
+
+    if len(question_ids) == 0:
+        return 'There is no question in the test paper', 400
     
     created = strftime("%a, %d %b %Y %H:%M:%S", localtime())
-
-    # question_ids = generate_questions()
-
-    question_ids = [1, 2, 3]   
 
     total_point = 0.0
 

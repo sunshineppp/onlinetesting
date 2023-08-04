@@ -1,0 +1,70 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "test paper",
+    "dateExported": "2023-08-04T05:29:58.275Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "4cb18279-2bec-4966-8783-78b8e324a688",
+            "colId": "f3352f11-e53b-413b-a89c-49a87d72c66c",
+            "containerId": "",
+            "name": "get all test papers",
+            "url": "http://localhost:5000/paper",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-08-03T06:32:49.796Z",
+            "modified": "2023-08-03T06:32:49.796Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "1d10a41d-1420-4b41-a4db-4f102ead25e4",
+            "colId": "f3352f11-e53b-413b-a89c-49a87d72c66c",
+            "containerId": "",
+            "name": "get one test paper",
+            "url": "http://localhost:5000/paper/1",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-08-03T06:33:36.171Z",
+            "modified": "2023-08-03T06:33:36.171Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "61e6bae0-df39-4418-97ed-5770c7c167d4",
+            "colId": "f3352f11-e53b-413b-a89c-49a87d72c66c",
+            "containerId": "",
+            "name": "create a new test paper",
+            "url": "http://localhost:5000/paper/create",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-08-04T05:27:53.314Z",
+            "modified": "2023-08-04T05:27:53.314Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"duration\": \"2:30:00\",\n  \"name\": \"new test\",\n  \"questionID\": [1, 2, 3]\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "2b67e965-e52b-4c01-a488-1460b4b3a0ff",
+            "colId": "f3352f11-e53b-413b-a89c-49a87d72c66c",
+            "containerId": "",
+            "name": "delete a test paper",
+            "url": "http://localhost:5000/paper/delete/4",
+            "method": "DELETE",
+            "sortNum": 40000,
+            "created": "2023-08-04T05:29:13.371Z",
+            "modified": "2023-08-04T05:29:13.371Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}

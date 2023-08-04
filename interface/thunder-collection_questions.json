@@ -1,0 +1,89 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "questions",
+    "dateExported": "2023-08-04T05:29:45.041Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "7774f53b-b6be-452c-8a94-409e088f90ff",
+            "colId": "602d981b-98fe-465e-a766-d08507d86c3b",
+            "containerId": "",
+            "name": "get all questions",
+            "url": "http://localhost:5000/question",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-08-02T07:12:40.180Z",
+            "modified": "2023-08-02T07:12:40.180Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "bdfb2322-73f9-485d-8003-9e6117b7df71",
+            "colId": "602d981b-98fe-465e-a766-d08507d86c3b",
+            "containerId": "",
+            "name": "get one question",
+            "url": "http://localhost:5000/question/4",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-08-02T07:22:16.767Z",
+            "modified": "2023-08-04T02:14:23.908Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "473ae111-d60b-43b9-afc2-6438a3253436",
+            "colId": "602d981b-98fe-465e-a766-d08507d86c3b",
+            "containerId": "",
+            "name": "create a new question",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-08-02T08:30:54.149Z",
+            "modified": "2023-08-03T02:56:20.866Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"content\": \"Question 4: the statement is true or false?\",\n  \"analysis\": \"because ...., the statement is true\",\n  \"type\": \"trueOrFalse\",\n  \"level\": \"hard\",\n  \"point\": 5.0,\n  \"answers\": [\n    {\n      \"content\": \"true\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"false\",\n      \"correct\": 0\n    }\n  ]\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c6f29c3b-7d0f-4b63-99ba-96276c1846a7",
+            "colId": "602d981b-98fe-465e-a766-d08507d86c3b",
+            "containerId": "",
+            "name": "delete a question",
+            "url": "http://localhost:5000/question/delete/5",
+            "method": "DELETE",
+            "sortNum": 40000,
+            "created": "2023-08-03T02:25:18.243Z",
+            "modified": "2023-08-03T02:58:51.616Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "fb9d2169-9097-4554-897e-93a7c02a9627",
+            "colId": "602d981b-98fe-465e-a766-d08507d86c3b",
+            "containerId": "",
+            "name": "update a question",
+            "url": "http://localhost:5000/question/update/1",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-08-03T03:26:23.842Z",
+            "modified": "2023-08-03T03:26:23.842Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"analysis\": \"if else then balabala the answer is B\",\n    \"answers\": [\n      {\n        \"content\": \"A. XXXXX\",\n        \"correct\": 0,\n        \"id\": 1\n      },\n      {\n        \"content\": \"B. XXXXX\",\n        \"correct\": 0,\n        \"id\": 2\n      },\n      {\n        \"content\": \"C. XXXXX\",\n        \"correct\": 0,\n        \"id\": 3\n      },\n      {\n        \"content\": \"D. XXXXXYY\",\n        \"correct\": 1,\n        \"id\": 4\n      }\n    ],\n    \"content\": \"Question 1: balabalabalabala, choose the answer from A. B. C. D.\",\n    \"id\": 1,\n    \"level\": \"easy\",\n    \"point\": 5.0,\n    \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
