@@ -14,7 +14,7 @@ def checkQuestion(request_data, check_id = False):
         type = request_data['type']
         level = request_data['level']
         point = request_data['point']
-        if check_id == True:
+        if check_id is True:
             question_id = request_data['id']
     except KeyError:
         raise Exception('Question not complete', 400)
@@ -24,7 +24,7 @@ def checkQuestion(request_data, check_id = False):
     else:
         raise Exception('Question not complete', 400)
 
-    if check_id == True:
+    if check_id is True:
         if question_id is not None:
             pass
         else:
@@ -47,7 +47,7 @@ def checkQuestion(request_data, check_id = False):
         level = level,
         point = point
     )
-    if check_id == True:
+    if check_id is True:
         question.id = question_id
 
     request_answers = request_data['answers']
@@ -60,7 +60,7 @@ def checkQuestion(request_data, check_id = False):
         try:
             answer_content = answer['content'] 
             answer_correct = answer['correct']
-            if check_id == True:
+            if check_id is True:
                 answer_id = answer['id']
         except KeyError:
             raise Exception('incomplete answers', 400)
@@ -70,10 +70,11 @@ def checkQuestion(request_data, check_id = False):
         else:
             raise Exception('incomplete answers', 400)
         
-        if answer_id is not None:
-            pass
-        else: 
-            raise Exception('incomplete answers', 400)
+        if check_id is True:
+            if answer_id is not None:
+                pass
+            else: 
+                raise Exception('incomplete answers', 400)
         
         if answer_correct in correct_values:
             pass
@@ -82,7 +83,7 @@ def checkQuestion(request_data, check_id = False):
     
     answers = []
     for answer in request_answers:
-        if check_id == True:
+        if check_id is True:
             answers.append(Answer(
                 content = answer['content'],
                 correct = answer['correct'],
