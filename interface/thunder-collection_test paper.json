@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "test paper",
-    "dateExported": "2023-08-04T05:29:58.275Z",
+    "dateExported": "2023-08-07T01:53:03.257Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -14,10 +14,11 @@
             "method": "GET",
             "sortNum": 10000,
             "created": "2023-08-03T06:32:49.796Z",
-            "modified": "2023-08-03T06:32:49.796Z",
+            "modified": "2023-08-07T01:16:36.104Z",
             "headers": [],
             "params": [],
-            "tests": []
+            "tests": [],
+            "docs": "### response\n```json\n[\n  {\n    \"created\": \"Fri, 04 Aug 2023 10:05:00\",\n    \"duration\": \"2:30:00\",\n    \"id\": 1,\n    \"name\": \"Test 1\",\n    \"passline\": 60.0\n  },\n  {\n    \"created\": \"Fri, 04 Aug 2023 10:05:00\",\n    \"duration\": \"2:00:00\",\n    \"id\": 2,\n    \"name\": \"Test 2\",\n    \"passline\": 70.0\n  },\n  {\n    \"created\": \"Fri, 04 Aug 2023 10:14:39\",\n    \"duration\": \"2:30:00\",\n    \"id\": 3,\n    \"name\": \"generated test\",\n    \"passline\": 11.4\n  }\n]\n```"
         },
         {
             "_id": "1d10a41d-1420-4b41-a4db-4f102ead25e4",
@@ -28,10 +29,11 @@
             "method": "GET",
             "sortNum": 20000,
             "created": "2023-08-03T06:33:36.171Z",
-            "modified": "2023-08-03T06:33:36.171Z",
+            "modified": "2023-08-07T01:16:59.383Z",
             "headers": [],
             "params": [],
-            "tests": []
+            "tests": [],
+            "docs": "### response\n```json\n{\n  \"created\": \"Fri, 04 Aug 2023 10:05:00\",\n  \"duration\": \"2:30:00\",\n  \"id\": 1,\n  \"name\": \"Test 1\",\n  \"passline\": 60.0,\n  \"questions\": [\n    {\n      \"analysis\": \"if else then balabala the answer is B\",\n      \"answers\": [\n        {\n          \"content\": \"A. XXXXX\",\n          \"correct\": 0,\n          \"id\": 1\n        },\n        {\n          \"content\": \"B. XXXXX\",\n          \"correct\": 0,\n          \"id\": 2\n        },\n        {\n          \"content\": \"C. XXXXX\",\n          \"correct\": 0,\n          \"id\": 3\n        },\n        {\n          \"content\": \"D. XXXXXYY\",\n          \"correct\": 1,\n          \"id\": 4\n        }\n      ],\n      \"content\": \"Question 1: balabalabalabala, choose the answer from A. B. C. D.\",\n      \"id\": 1,\n      \"level\": \"easy\",\n      \"point\": 5.0,\n      \"type\": \"singleChoice\"\n    },\n    {\n      \"analysis\": \"because ......, the answer is false\",\n      \"answers\": [\n        {\n          \"content\": \"True\",\n          \"correct\": 0,\n          \"id\": 5\n        },\n        {\n          \"content\": \"False\",\n          \"correct\": 1,\n          \"id\": 6\n        }\n      ],\n      \"content\": \"Question 2: judge whether the following statement is correct\",\n      \"id\": 2,\n      \"level\": \"medium\",\n      \"point\": 4.0,\n      \"type\": \"trueOrFalse\"\n    }\n  ]\n}\n```"
         },
         {
             "_id": "61e6bae0-df39-4418-97ed-5770c7c167d4",
@@ -42,7 +44,7 @@
             "method": "POST",
             "sortNum": 30000,
             "created": "2023-08-04T05:27:53.314Z",
-            "modified": "2023-08-04T05:27:53.314Z",
+            "modified": "2023-08-07T01:17:24.383Z",
             "headers": [],
             "params": [],
             "body": {
@@ -50,7 +52,8 @@
                 "raw": "{\n  \"duration\": \"2:30:00\",\n  \"name\": \"new test\",\n  \"questionID\": [1, 2, 3]\n}",
                 "form": []
             },
-            "tests": []
+            "tests": [],
+            "docs": "### response\n```json\n{\n  \"created\": \"Mon, 07 Aug 2023 09:17:04\",\n  \"duration\": \"2:30:00\",\n  \"id\": 4,\n  \"name\": \"new test\",\n  \"passline\": 11.4,\n  \"questions\": [\n    {\n      \"analysis\": \"if else then balabala the answer is B\",\n      \"answers\": [\n        {\n          \"content\": \"A. XXXXX\",\n          \"correct\": 0,\n          \"id\": 1\n        },\n        {\n          \"content\": \"B. XXXXX\",\n          \"correct\": 0,\n          \"id\": 2\n        },\n        {\n          \"content\": \"C. XXXXX\",\n          \"correct\": 0,\n          \"id\": 3\n        },\n        {\n          \"content\": \"D. XXXXXYY\",\n          \"correct\": 1,\n          \"id\": 4\n        }\n      ],\n      \"content\": \"Question 1: balabalabalabala, choose the answer from A. B. C. D.\",\n      \"id\": 1,\n      \"level\": \"easy\",\n      \"point\": 5.0,\n      \"type\": \"singleChoice\"\n    },\n    {\n      \"analysis\": \"because ......, the answer is false\",\n      \"answers\": [\n        {\n          \"content\": \"True\",\n          \"correct\": 0,\n          \"id\": 5\n        },\n        {\n          \"content\": \"False\",\n          \"correct\": 1,\n          \"id\": 6\n        }\n      ],\n      \"content\": \"Question 2: judge whether the following statement is correct\",\n      \"id\": 2,\n      \"level\": \"medium\",\n      \"point\": 4.0,\n      \"type\": \"trueOrFalse\"\n    },\n    {\n      \"analysis\": \"According to zzzzzz, the principle of xxx can be stated as follows: yyyyyyyy\",\n      \"answers\": [\n        {\n          \"content\": \"The principle of xxx is yyyyyyy\",\n          \"correct\": 1,\n          \"id\": 7\n        }\n      ],\n      \"content\": \"Question 3: please briefly describe the principle of xxx\",\n      \"id\": 3,\n      \"level\": \"hard\",\n      \"point\": 10.0,\n      \"type\": \"shortAnswer\"\n    }\n  ]\n}\n```"
         },
         {
             "_id": "2b67e965-e52b-4c01-a488-1460b4b3a0ff",
