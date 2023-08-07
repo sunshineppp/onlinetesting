@@ -1,7 +1,6 @@
 # coding: utf-8
 from flask_sqlalchemy import SQLAlchemy
 from app import db
-from app.model import enums
 from werkzeug.security import generate_password_hash, check_password_hash
 import time
 from datetime import datetime, timedelta
@@ -39,7 +38,7 @@ class User(PaginatedAPIMixin,db.Model):
     account = db.Column(db.String(64), nullable=False)
     password = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(128), nullable=False)
-    permission_id = db.Column(db.Integer, nullable=False)
+    permission_id = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -131,50 +130,3 @@ class Role(PaginatedAPIMixin,db.Model):
             time_tuple = time.localtime(time.time())
             create_time = "当前时间为{}年{}月{}日{}点{}分{}秒".format(time_tuple[0],time_tuple[1],time_tuple[2],time_tuple[3],time_tuple[4],time_tuple[5])
             self.create_time = create_time
-
-
-
-class Answer(db.Model):
-    __tablename__ = 'answer'
-
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.Text, nullable=False)
-    correct = db.Column(db.Integer, nullable = False)
-    question_id = db.Column(db.ForeignKey('question.id'), nullable=False)
-
-    question = db.relationship('Question', primaryjoin='Answer.question_id == Question.id', backref='answers')
-
-
-
-class Question(db.Model):
-    __tablename__ = 'question'
-
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.Text, nullable=False)
-    analysis = db.Column(db.Text, nullable=False)
-    type = db.Column(db.Enum(enums.QuestionType), nullable=False)
-    level = db.Column(db.Enum(enums.QuestionLevel), nullable=False)
-    point = db.Column(db.Float, nullable=False)
-
-
-
-class Testpaper(db.Model):
-    __tablename__ = 'testpaper'
-
-    id = db.Column(db.Integer, primary_key=True)
-    duration = db.Column(db.Text, nullable=False)
-    name = db.Column(db.Text, nullable=False)
-    passline = db.Column(db.Float, nullable=False)
-    created = db.Column(db.Text, nullable=False)
-
-
-
-class TestpaperQuestion(db.Model):
-    __tablename__ = 'testpaper_question'
-
-    id = db.Column(db.Integer, primary_key=True)
-    question_id = db.Column(db.ForeignKey('question.id'), nullable=False)
-    testpaper_id = db.Column(db.ForeignKey('testpaper.id'), nullable=False)
-
-    question = db.relationship('Question', primaryjoin='TestpaperQuestion.question_id == Question.id', backref='testpaper_questions')
-    testpaper = db.relationship('Testpaper', primaryjoin='TestpaperQuestion.testpaper_id == Testpaper.id', backref='testpaper_questions')
