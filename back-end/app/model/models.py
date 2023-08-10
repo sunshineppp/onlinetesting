@@ -52,7 +52,8 @@ class User(PaginatedAPIMixin,db.Model):
         data = {
             'id': self.id,
             'account': self.account,
-            'permission_id':self.permission_id
+            'permission_id':self.permission_id,
+            'email':self.email
             # '_links': {
             #     'self': url_for('api.get_user', id=self.id)
             # }
@@ -70,7 +71,7 @@ class User(PaginatedAPIMixin,db.Model):
             # self.password = data['password']
             self.set_password(data['password'])
     
-    def get_jwt(self, expires_in=600):
+    def get_jwt(self, expires_in=6000):
         now = datetime.utcnow()
         payload = {
             'user_id': self.id,
@@ -93,7 +94,7 @@ class User(PaginatedAPIMixin,db.Model):
                 algorithms=['HS256'])
         except (jwt.exceptions.ExpiredSignatureError, jwt.exceptions.InvalidSignatureError) as e:
             # Token过期，或被人修改，那么签名验证也会失败
-            return None
+            return '登录过期'
         return User.query.get(payload.get('user_id'))
 
 
@@ -108,7 +109,7 @@ class Role(PaginatedAPIMixin,db.Model):
     description = db.Column(db.Text, nullable=False)
     create_time = db.Column(db.Text, nullable=False)
 
-    permission = db.relationship('User', primaryjoin='Role.permission_id == User.permission_id', backref='roles')
+    user = db.relationship('User', primaryjoin='Role.permission_id == User.permission_id', backref='roles')
 
     def to_dict(self):
         data = {
@@ -178,3 +179,41 @@ class TestpaperQuestion(db.Model):
 
     question = db.relationship('Question', primaryjoin='TestpaperQuestion.question_id == Question.id', backref='testpaper_questions')
     testpaper = db.relationship('Testpaper', primaryjoin='TestpaperQuestion.testpaper_id == Testpaper.id', backref='testpaper_questions')
+
+
+class UserExam(db.Model):
+    __tablename__ = 'user_exam'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.ForeignKey('user.id'), nullable=False)
+    testpaper_id = db.Column(db.ForeignKey('testpaper.id'), nullable=False)
+    question_id = db.Column(db.ForeignKey('question.id'), nullable=False)
+    answer = db.Column(db.Text, nullable=True)
+    correct = db.Column(db.Boolean, nullable=True)
+    score = db.Column(db.Float, nullable=True)
+    exam_time = db.Column(db.Text, nullable=True)
+
+    user = db.relationship('User', primaryjoin='UserExam.user_id == User.id', backref='user_exam')
+    question = db.relationship('Question', primaryjoin='UserExam.question_id == Question.id', backref='user_exam')
+    testpaper = db.relationship('Testpaper', primaryjoin='UserExam.testpaper_id == Testpaper.id', backref='user_exam')
+
+    def to_dict(self):
+        data = {
+            'exam_name': self.permission_id,
+            'permission_name': self.permission_name,
+            'description': self.description,
+            'create_time': self.create_time
+            # '_links': {
+            # }
+            }
+        return data
+
+
+    def from_dict(self, data, new_role = False):
+        for field in ['permission_id','permission_name','description']:
+            if field in data:
+                setattr(self, field, data[field])
+        if new_role:
+            time_tuple = time.localtime(time.time())
+            create_time = "当前时间为{}年{}月{}日{}点{}分{}秒".format(time_tuple[0],time_tuple[1],time_tuple[2],time_tuple[3],time_tuple[4],time_tuple[5])
+            self.create_time = create_time
