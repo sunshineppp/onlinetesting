@@ -7,7 +7,6 @@ from app.api.auth import token_auth,permission_require
 import re
 
 
-@bp.route('/users/create', methods=['POST'])
 def create_user():
     data = request.get_json()
     if not data:
@@ -26,6 +25,15 @@ def create_user():
         message['account'] = 'Please use a different account.'
     if User.query.filter_by(email=data.get('email', None)).first():
         message['email'] = 'Please use a different email address.'
+    
+    if request.headers.get('Authorization') is not None:
+        if 'permission_id' not in data or not data.get('permission_id', None):
+            message['permission_id'] = 'Please provide a valid permission_id.'
+    else:
+        if 'permission_id' in data:
+            data.pop('permission_id')
+            message['permission_id'] = 'No permission'
+    
     if message:
         return bad_request(message)
 
@@ -37,6 +45,16 @@ def create_user():
     response.status_code = 201
     response.headers['Location'] = url_for('api.get_user', id=user.id)
     return response
+
+@bp.route('/users/create',methods=['POST'])
+def user_create_user():
+    return create_user()
+
+@token_auth.login_required
+@bp.route('/users/adminCreate',methods=['POST'])
+@permission_require
+def admin_create_user():
+    return create_user()
 
 @token_auth.login_required
 @bp.route('/users/', methods=['GET'])
@@ -83,7 +101,7 @@ def update_user(id):
         return bad_request(message)
 
     user.from_dict(data,new_user=False)
-    print(user.permission_id)
+    # interface/thunder-collection_user.json
     db.session.commit()
     return "update success", 200
 
