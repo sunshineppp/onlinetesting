@@ -6,7 +6,7 @@ import functools
 import jwt
 
 
-basic_auth = HTTPBasicAuth()
+basic_auth = HTTPBasicAuth(scheme='custom')
 token_auth = HTTPTokenAuth()
 
 
