@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "questions",
-    "dateExported": "2023-08-04T05:29:45.041Z",
+    "dateExported": "2023-08-07T01:52:48.812Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -14,10 +14,11 @@
             "method": "GET",
             "sortNum": 10000,
             "created": "2023-08-02T07:12:40.180Z",
-            "modified": "2023-08-02T07:12:40.180Z",
+            "modified": "2023-08-07T01:13:53.824Z",
             "headers": [],
             "params": [],
-            "tests": []
+            "tests": [],
+            "docs": "### response\n```json\n[\n  {\n    \"analysis\": \"if else then balabala the answer is B\",\n    \"answers\": [\n      {\n        \"content\": \"A. XXXXX\",\n        \"correct\": 0,\n        \"id\": 1\n      },\n      {\n        \"content\": \"B. XXXXX\",\n        \"correct\": 1,\n        \"id\": 2\n      },\n      {\n        \"content\": \"C. XXXXX\",\n        \"correct\": 0,\n        \"id\": 3\n      },\n      {\n        \"content\": \"D. XXXXX\",\n        \"correct\": 0,\n        \"id\": 4\n      }\n    ],\n    \"content\": \"Question 1: balabalabalabala, choose the answer from A. B. C. D.\",\n    \"id\": 1,\n    \"level\": \"easy\",\n    \"point\": 5.0,\n    \"type\": \"singleChoice\"\n  },\n  {\n    \"analysis\": \"because ......, the answer is false\",\n    \"answers\": [\n      {\n        \"content\": \"True\",\n        \"correct\": 0,\n        \"id\": 5\n      },\n      {\n        \"content\": \"False\",\n        \"correct\": 1,\n        \"id\": 6\n      }\n    ],\n    \"content\": \"Question 2: judge whether the following statement is correct\",\n    \"id\": 2,\n    \"level\": \"medium\",\n    \"point\": 4.0,\n    \"type\": \"trueOrFalse\"\n  },\n  {\n    \"analysis\": \"According to zzzzzz, the principle of xxx can be stated as follows: yyyyyyyy\",\n    \"answers\": [\n      {\n        \"content\": \"The principle of xxx is yyyyyyy\",\n        \"correct\": 1,\n        \"id\": 7\n      }\n    ],\n    \"content\": \"Question 3: please briefly describe the principle of xxx\",\n    \"id\": 3,\n    \"level\": \"hard\",\n    \"point\": 10.0,\n    \"type\": \"shortAnswer\"\n  },\n  {\n    \"analysis\": \"because ...., the statement is true\",\n    \"answers\": [\n      {\n        \"content\": \"true\",\n        \"correct\": 1,\n        \"id\": 8\n      },\n      {\n        \"content\": \"false\",\n        \"correct\": 0,\n        \"id\": 9\n      }\n    ],\n    \"content\": \"Question 4: the statement is true or false?\",\n    \"id\": 4,\n    \"level\": \"hard\",\n    \"point\": 5.0,\n    \"type\": \"trueOrFalse\"\n  }\n]\n```"
         },
         {
             "_id": "bdfb2322-73f9-485d-8003-9e6117b7df71",
@@ -28,10 +29,11 @@
             "method": "GET",
             "sortNum": 20000,
             "created": "2023-08-02T07:22:16.767Z",
-            "modified": "2023-08-04T02:14:23.908Z",
+            "modified": "2023-08-07T01:15:24.323Z",
             "headers": [],
             "params": [],
-            "tests": []
+            "tests": [],
+            "docs": "### response\n```json\n{\n  \"analysis\": \"because ...., the statement is true\",\n  \"answers\": [\n    {\n      \"content\": \"true\",\n      \"correct\": 1,\n      \"id\": 8\n    },\n    {\n      \"content\": \"false\",\n      \"correct\": 0,\n      \"id\": 9\n    }\n  ],\n  \"content\": \"Question 4: the statement is true or false?\",\n  \"id\": 4,\n  \"level\": \"hard\",\n  \"point\": 5.0,\n  \"type\": \"trueOrFalse\"\n}\n```"
         },
         {
             "_id": "473ae111-d60b-43b9-afc2-6438a3253436",
@@ -57,11 +59,11 @@
             "colId": "602d981b-98fe-465e-a766-d08507d86c3b",
             "containerId": "",
             "name": "delete a question",
-            "url": "http://localhost:5000/question/delete/5",
+            "url": "http://localhost:5000/question/delete/4",
             "method": "DELETE",
             "sortNum": 40000,
             "created": "2023-08-03T02:25:18.243Z",
-            "modified": "2023-08-03T02:58:51.616Z",
+            "modified": "2023-08-07T01:15:44.803Z",
             "headers": [],
             "params": [],
             "tests": []
