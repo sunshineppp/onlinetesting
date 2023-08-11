@@ -31,4 +31,7 @@ def create_app(config_class=Config):
     from app.api import testpaper_blueprint as testpaper_bp
     app.register_blueprint(testpaper_bp)
 
+    from app.api import wqb
+    app.register_blueprint(wqb)
+
     return app
