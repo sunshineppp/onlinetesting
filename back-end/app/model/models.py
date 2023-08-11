@@ -11,7 +11,7 @@ from flask import url_for,current_app
 class PaginatedAPIMixin(object):
     @staticmethod
     def to_collection_dict(query, page, per_page, endpoint, **kwargs):
-        resources = query.paginate(page=1, per_page=10)
+        resources = query.paginate(page=page, per_page=per_page)
         data = {
             'items': [item.to_dict() for item in resources.items],
             '_meta': {
@@ -67,9 +67,10 @@ class User(PaginatedAPIMixin,db.Model):
             if field in data:
                 setattr(self, field, data[field])
         if new_user and 'password' in data:
-            self.permission_id = 0
             # self.password = data['password']
             self.set_password(data['password'])
+        if 'permission_id' not in data:
+            self.permission_id = 0
     
     def get_jwt(self, expires_in=6000):
         now = datetime.utcnow()
@@ -130,7 +131,7 @@ class Role(PaginatedAPIMixin,db.Model):
                 setattr(self, field, data[field])
         if new_role:
             time_tuple = time.localtime(time.time())
-            create_time = "当前时间为{}年{}月{}日{}点{}分{}秒".format(time_tuple[0],time_tuple[1],time_tuple[2],time_tuple[3],time_tuple[4],time_tuple[5])
+            create_time = "{}年{}月{}日{}点{}分{}秒".format(time_tuple[0],time_tuple[1],time_tuple[2],time_tuple[3],time_tuple[4],time_tuple[5])
             self.create_time = create_time
 
 
@@ -199,7 +200,7 @@ class UserExam(db.Model):
 
     def to_dict(self):
         data = {
-            'exam_name': self.permission_id,
+            'permission_id': self.permission_id,
             'permission_name': self.permission_name,
             'description': self.description,
             'create_time': self.create_time
@@ -209,11 +210,12 @@ class UserExam(db.Model):
         return data
 
 
-    def from_dict(self, data, new_role = False):
-        for field in ['permission_id','permission_name','description']:
+    def from_dict(self, data):
+        for field in ['question_id','answer',]:
             if field in data:
                 setattr(self, field, data[field])
-        if new_role:
-            time_tuple = time.localtime(time.time())
-            create_time = "当前时间为{}年{}月{}日{}点{}分{}秒".format(time_tuple[0],time_tuple[1],time_tuple[2],time_tuple[3],time_tuple[4],time_tuple[5])
-            self.create_time = create_time
+
+    def to_dict(self):
+        data = {
+            
+        }
