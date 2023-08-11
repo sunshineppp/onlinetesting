@@ -60,9 +60,13 @@ def admin_create_user():
 @bp.route('/users/', methods=['GET'])
 @permission_require
 def get_users():
-    page = request.args.get('page', 1, type=int)
-    per_page = min(request.args.get('per_page', 10, type=int), 100)
-    data = User.to_collection_dict(User.query, page, per_page, 'api.get_users')
+    # page = request.args.get('page', 1, type=int)
+    # per_page = min(request.args.get('per_page', 10, type=int), 100)
+    # data = User.to_collection_dict(User.query, page, per_page, 'api.get_users')
+    resources =  db.session.query(User).all()
+    data = {
+        'users': [item.to_dict() for item in resources]
+    }
     return jsonify(data)
 
 @token_auth.login_required
