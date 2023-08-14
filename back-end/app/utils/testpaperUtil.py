@@ -77,12 +77,18 @@ def teacherGetPaperUtil(id,user_id):
             ).filter(Answer.question_id == question['id']).all()
             answers = list(map(lambda answer: dict(answer._mapping), answers))
             question['answers'] = answers
+
             user_exams = db.session.query(UserExam).with_entities(
                 UserExam.answer,
                 UserExam.score
             ).filter(UserExam.testpaper_id==id).filter(UserExam.user_id==user_id)\
                 .filter(UserExam.question_id == question['id']).all()
             user_exams = list(map(lambda user_exam: dict(user_exam._mapping), user_exams))
+            if question['type'] != 'shortAnswer':
+                for user_exam in user_exams:
+                    answer_content =  db.session.query(Answer.content).filter(Answer.id == int(user_exam['answer'],10)).first()
+                    user_exam['answer_content'] = answer_content[0]
+            print(user_exams)
             question['user_exams'] = user_exams
         
         paper['questions'] = questions

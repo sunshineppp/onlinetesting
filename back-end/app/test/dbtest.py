@@ -106,6 +106,29 @@ if __name__ == "__main__":
         db.session.add(answer)
         db.session.commit()
 
+#new
+        question = Question(
+            id = 4,
+            content = "Question 4: please briefly describe the principle of xxx",
+            analysis = "According to xxzzzzzz, the principle of xxx can be stated as follows: yyyyyyyy",
+            type = "shortAnswer",
+            level = "easy",
+            point = 10.0
+        )
+        db.session.add(question)
+        db.session.commit()
+
+        answer = Answer(
+            id = 8,
+            content = "The principle of xxxxxx is yyyyyyy",
+            correct = 1,
+            question_id = 4
+        )
+        db.session.add(answer)
+        db.session.commit()
+#new
+
+
         paper = Testpaper(
             id = 1,
             duration = str(timedelta(hours=2, minutes=30)),
@@ -127,6 +150,14 @@ if __name__ == "__main__":
         paperQuestion = TestpaperQuestion(
             id = 2,
             question_id = 2,
+            testpaper_id = 1
+        )
+        db.session.add(paperQuestion)
+        db.session.commit()
+
+        paperQuestion = TestpaperQuestion(
+            id = 5,
+            question_id = 3,
             testpaper_id = 1
         )
         db.session.add(paperQuestion)
@@ -157,4 +188,48 @@ if __name__ == "__main__":
         )
         db.session.add(paperQuestion)
         db.session.commit()
+
+#new
+        paper = Testpaper(
+            id = 3,
+            duration = str(timedelta(hours=2)),
+            name = 'Test 3',
+            passline = 70.0,
+            created = strftime("%a, %d %b %Y %H:%M:%S", localtime())
+        )
+        
+        db.session.add(paper)
+        db.session.commit()
+
+        paperQuestion = TestpaperQuestion(
+            id = 6,
+            question_id = 1,
+            testpaper_id = 3,
+        )
+        db.session.add(paperQuestion)
+        
+        paperQuestion = TestpaperQuestion(
+            id = 7,
+            question_id = 2,
+            testpaper_id = 3
+        )
+        db.session.add(paperQuestion)
+        db.session.commit()
+
+        paperQuestion = TestpaperQuestion(
+            id = 8,
+            question_id = 3,
+            testpaper_id = 3
+        )
+        db.session.add(paperQuestion)
+        db.session.commit()
+
+        paperQuestion = TestpaperQuestion(
+            id = 9,
+            question_id = 4,
+            testpaper_id = 3
+        )
+        db.session.add(paperQuestion)
+        db.session.commit()
+#new
 
