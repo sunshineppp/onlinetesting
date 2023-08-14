@@ -198,16 +198,16 @@ class UserExam(db.Model):
     question = db.relationship('Question', primaryjoin='UserExam.question_id == Question.id', backref='user_exam')
     testpaper = db.relationship('Testpaper', primaryjoin='UserExam.testpaper_id == Testpaper.id', backref='user_exam')
 
-    def to_dict(self):
-        data = {
-            'permission_id': self.permission_id,
-            'permission_name': self.permission_name,
-            'description': self.description,
-            'create_time': self.create_time
-            # '_links': {
-            # }
-            }
-        return data
+    # def to_dict(self):
+    #     data = {
+    #         'permission_id': self.permission_id,
+    #         'permission_name': self.permission_name,
+    #         'description': self.description,
+    #         'create_time': self.create_time
+    #         # '_links': {
+    #         # }
+    #         }
+    #     return data
 
 
     def from_dict(self, data):
@@ -226,3 +226,4 @@ class UserExam(db.Model):
             "exam_time":self.exam_time,
         }
         return data
+    
