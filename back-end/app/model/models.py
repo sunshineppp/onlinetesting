@@ -217,5 +217,12 @@ class UserExam(db.Model):
 
     def to_dict(self):
         data = {
-            
+            "user_id":self.user_id,
+            "tespaper_id":self.testpaper_id,
+            "question_id":self.question_id,
+            "answer":self.answer,
+            "correct":self.correct,
+            "score":self.score,
+            "exam_time":self.exam_time,
         }
+        return data
