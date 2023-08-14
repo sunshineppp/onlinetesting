@@ -34,4 +34,7 @@ def create_app(config_class=Config):
     from app.api import wqb
     app.register_blueprint(wqb)
 
+    from app.api import statistics_blueprint as statistics_bp
+    app.register_blueprint(statistics_bp)
+
     return app

@@ -1,0 +1,23 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "statistics",
+    "dateExported": "2023-08-14T08:36:59.466Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "330100c5-10ae-4cce-9b04-a6ff675972a1",
+            "colId": "ea295229-1e69-4297-b7ce-4069eb4628c9",
+            "containerId": "",
+            "name": "get exam statistics",
+            "url": "http://localhost:5000/statistics/exam/1",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-08-14T08:36:53.093Z",
+            "modified": "2023-08-14T08:36:53.093Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ]
+}
