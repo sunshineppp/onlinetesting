@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "test paper",
-    "dateExported": "2023-08-07T01:53:03.257Z",
+    "dateExported": "2023-08-15T09:11:20.068Z",
     "version": "1.1",
     "folders": [],
     "requests": [
@@ -25,11 +25,11 @@
             "colId": "f3352f11-e53b-413b-a89c-49a87d72c66c",
             "containerId": "",
             "name": "get one test paper",
-            "url": "http://localhost:5000/paper/1",
+            "url": "http://localhost:5000/paper/7",
             "method": "GET",
             "sortNum": 20000,
             "created": "2023-08-03T06:33:36.171Z",
-            "modified": "2023-08-07T01:16:59.383Z",
+            "modified": "2023-08-15T09:10:04.185Z",
             "headers": [],
             "params": [],
             "tests": [],
@@ -40,11 +40,11 @@
             "colId": "f3352f11-e53b-413b-a89c-49a87d72c66c",
             "containerId": "",
             "name": "create a new test paper",
-            "url": "http://localhost:5000/paper/create",
+            "url": "http://localhost:5000/paper/edit",
             "method": "POST",
             "sortNum": 30000,
             "created": "2023-08-04T05:27:53.314Z",
-            "modified": "2023-08-07T01:17:24.383Z",
+            "modified": "2023-08-15T09:07:48.445Z",
             "headers": [],
             "params": [],
             "body": {
@@ -67,6 +67,25 @@
             "modified": "2023-08-04T05:29:13.371Z",
             "headers": [],
             "params": [],
+            "tests": []
+        },
+        {
+            "_id": "1a1c8a74-0e61-4240-9715-c7b0b20d2416",
+            "colId": "f3352f11-e53b-413b-a89c-49a87d72c66c",
+            "containerId": "",
+            "name": "update testpaper",
+            "url": "http://localhost:5000/paper/edit/7",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-08-15T09:10:31.617Z",
+            "modified": "2023-08-15T09:10:47.484Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"test\",\n  \"duration\": \"1:40:00\",\n  \"questionID\": [1, 2]\n}",
+                "form": []
+            },
             "tests": []
         }
     ]

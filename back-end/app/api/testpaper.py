@@ -29,31 +29,16 @@ def getOnePaper(id):
 
     return jsonify(paper)
 
-@bp.route('/create', methods = ('POST',))
+@bp.route('/edit', methods = ('POST',))
 def createPaper():
 
     request_data = request.get_json()
-    
-    try:
-        duration = request_data['duration'] 
-        name = request_data['name']
-        question_ids = request_data['questionID']
-    except KeyError:
-        return 'Test paper info missing', 400
-
-    if None not in (duration, name):
-        pass
-    else:
-        return 'Test paper info missing', 400
 
     try:
-        strptime(duration, "%H:%M:%S")
-    except ValueError:
-        return 'Test duration format is wrong', 400
-
-    if len(question_ids) == 0:
-        return 'There is no question in the test paper', 400
-    
+        name, duration, question_ids = testpaperUtil.checkPaper(request_data)
+    except Exception as e:
+        return e.args
+   
     created = strftime("%a, %d %b %Y %H:%M:%S", localtime())
 
     total_point = 0.0
@@ -97,6 +82,47 @@ def createPaper():
         return e.args
     
     return jsonify(paper)
+
+@bp.route('/edit/<int:id>', methods=('POST',)) 
+def modifyPaper(id):
+    request_data = request.get_json()
+    try: 
+        name, duration, question_ids = testpaperUtil.checkPaper(request_data)
+    except Exception as e:
+        return e.args
+
+    total_point = 0.0
+
+    for question_id in question_ids:
+        question = db.session.query(Question).filter(Question.id == question_id).first()
+        total_point += question.point
+    
+    passline = total_point * 0.6
+
+    try:
+        db.session.query(Testpaper).filter(Testpaper.id == id).update({
+            Testpaper.name: name,
+            Testpaper.duration: duration,
+            Testpaper.passline: passline
+        })
+        db.session.query(TestpaperQuestion).filter(TestpaperQuestion.testpaper_id == id).delete()
+    except exc.SQLAlchemyError:
+        return 'failed to update test paper', 400
+    
+    for question_id in question_ids:
+        testpaperQuestion = TestpaperQuestion(
+            question_id = question_id,
+            testpaper_id = id
+        )
+        try:
+            db.session.add(testpaperQuestion)
+        except exc.SQLAlchemyError:
+            return 'failed to update test paper', 400
+
+    db.session.commit() 
+
+    return '', 200
+
 
 @bp.route('/delete/<int:id>', methods=('DELETE',))
 def deletePaper(id):
