@@ -1,6 +1,32 @@
 from app import db
 from app.model.models import Question, Answer, Testpaper, TestpaperQuestion, UserExam
 from app.utils import questionUtil
+from time import strptime
+
+
+def checkPaper(request_data):
+    try:
+        duration = request_data['duration']
+        name = request_data['name']
+        question_ids = request_data['questionID']
+    except KeyError:
+        raise Exception('Test paper info missing', 400)
+
+    if None not in (duration, name):
+        pass
+    else:
+        raise Exception('Test paper info missing', 400)
+
+    try:
+        strptime(duration, "%H:%M:%S")
+    except ValueError:
+        raise Exception('Test duration format is wrong', 400)
+
+    if len(question_ids) == 0:
+        raise Exception('There is no question in the test paper', 400)
+
+    return name, duration, question_ids
+ 
 
 def getPaperUtil(id):
     paper = db.session.query(Testpaper).with_entities(
