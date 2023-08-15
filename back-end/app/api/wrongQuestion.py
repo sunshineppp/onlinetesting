@@ -18,6 +18,8 @@ def get_exam_total(qs):
         return exam_score
 
 
+
+
 @token_auth.verify_token
 @wqb.route('/myExamScore', methods=['GET'])#学生成绩界面
 @permission_require_student
@@ -30,7 +32,7 @@ def wrong():
     userexams = db.session.query(UserExam.testpaper_id).filter(UserExam.user_id==g.user_id)\
         .group_by(UserExam.testpaper_id).all() #.filter(UserExam.correct == 1)
     if userexams is None:
-        return 'no exam'
+        return 'no exam',208
     # print(userexams)
     all_exam=[]
     for userexam in userexams:
@@ -80,6 +82,8 @@ def wrong():
         all_exam.append(data)
 
     return jsonify(all_exam)
+
+
 
 
 @token_auth.verify_token
@@ -136,7 +140,7 @@ def create_exam():
                 else:
                     userexam.correct = False
                     userexam.score =  0
-            print(userexam.to_dict())
+            # print(userexam.to_dict())
             db.session.add(userexam)
         except Exception as e:
             return e.args
@@ -144,6 +148,7 @@ def create_exam():
     db.session.commit()
     
     return 'Submit the test paper successfully'
+
 
 
 @token_auth.verify_token
@@ -158,7 +163,7 @@ def get_paper():
     print(testpapers)
 
     if testpapers is None:
-        return '没有可批改的试卷'
+        return '没有可批改的试卷',208
     try:
         for testpaper in testpapers:
             questions = db.session.query(TestpaperQuestion.question_id)\
@@ -202,6 +207,8 @@ def correctPaper(student_id,exam_id):
         return bad_response('正在维护')
 
     return jsonify(paper)
+
+
 
 
 @token_auth.verify_token
@@ -252,6 +259,8 @@ def commitCorrectPaper(student_id,exam_id):
             return bad_response('正在维护')
 
     return 'Correct testpaper success'
+
+
     
     
 @token_auth.verify_token
@@ -264,6 +273,52 @@ def myExamDetil(exam_id):
         return bad_response('正在维护')
 
     return jsonify(paper)
+
+
+
+
+@token_auth.verify_token
+@wqb.route('/myExams', methods=['GET'])#学生试卷
+@permission_require_student
+def myExams():
+    papers={}
+    paper=[]
+    try:
+        # a=1/0
+        testpapers = db.session.query(Testpaper.id,Testpaper.name,Testpaper.passline,Testpaper.duration).all()
+        # print(testpapers)
+        for testpaper in testpapers:
+            # print(testpaper[0])
+            user_exam = db.session.query(UserExam).filter(UserExam.user_id == g.user_id)\
+                .filter(UserExam.testpaper_id == testpaper[0]).first()
+            
+            if user_exam:
+                continue
+
+            questions = db.session.query(TestpaperQuestion.question_id)\
+                .filter(TestpaperQuestion.testpaper_id==testpaper[0]).all()
+            qs=[]#试卷题集合
+            for question in questions:
+                qs.append(question[0])
+            exam_score = get_exam_total(qs)
+            data = {
+                'testpaper_id':testpaper[0],
+                'testpaper_name':testpaper[1],
+                'testpaper_score':exam_score,
+                'testpaper_passline':testpaper[2],
+                'testpaper_duration':testpaper[3],
+            }
+            paper.append(data)
+    except Exception as e:
+        return bad_response('正在维护')
+
+    if paper == []:
+        return 'No testpaper you should take',208
+    
+    papers['testpaper'] = paper
+
+    return jsonify(papers)
+
 
 
 
