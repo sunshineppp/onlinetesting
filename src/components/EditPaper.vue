@@ -17,7 +17,13 @@
             </el-table>
         </el-form-item>
         <el-form-item>
-            <el-button v-if="this.$route.params.paper_id !== undefined" @click="show()" icon="el-icon-search">显示已选</el-button>
+            <el-tooltip v-if="this.$route.params.paper_id !== undefined" 
+                class="box-item" 
+                effect="light" 
+                content="撤销当前选择，显示当前试卷中已经包含的题目" 
+                placement="bottom">
+                <el-button @click="show()" icon="el-icon-search">显示</el-button>
+            </el-tooltip>
             <el-button type="primary" @click="submit('newPaper')">提交</el-button>
             <el-button @click="cancel()">取消</el-button>
         </el-form-item>
@@ -51,6 +57,9 @@ export default {
     },
     methods: {
         show() {
+            if (JSON.stringify(this.questionID.sort()) !== JSON.stringify(this.oldQuestionID.sort())) {
+                this.$refs.questionTable.clearSelection()
+            }
             this.questions.forEach(q => {
                 if (this.oldQuestionID.includes(q.id)) {
                     this.$refs.questionTable.toggleRowSelection(q)
@@ -131,14 +140,14 @@ export default {
 
                 let id = this.$route.params.paper_id
                 if (id !== undefined) {
-                    axios.get('/paper/info/'+id, {headers: {'Authorization': token}})
+                    axios.get('/paper/info/' + id, { headers: { 'Authorization': token } })
                         .then((res) => {
                             this.form.name = res.data.name
                             let duration = res.data.duration.split(':')
                             this.form.duration = (+duration[0]) * 60 + (+duration[1])
                             this.oldQuestionID = res.data.questionID
                         })
-                        .catch(err => {console.log(err)})
+                        .catch(err => { console.log(err) })
                 }
             })
             .catch((error) => {
