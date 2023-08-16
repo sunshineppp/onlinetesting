@@ -18,6 +18,13 @@ def getPapers():
 
     papers = list(map(lambda paper: dict(paper._mapping), papers))
 
+    for paper in papers:
+        questions = db.session.query(TestpaperQuestion.question_id).filter(
+                TestpaperQuestion.testpaper_id == paper['id']
+            ).all()
+        questions = list(map(lambda q: q[0], questions))
+        paper['questionID'] = list(questions)
+
     return jsonify(papers)
 
 @bp.route('/<int:id>', methods=('GET',))
