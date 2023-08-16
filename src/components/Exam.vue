@@ -4,26 +4,34 @@
     <!-- 表单 -->
     <el-dialog title="Exam" :visible.sync="dialogFormVisible" append-to-body>
       <el-form :model="form" label-position="right">
-        <template v-for="(item, index) in textPaper">
-          <span>{{ textPaper[index].content }}</span>
-          </br>
-          <ul v-for="(i, d) in item.answers" v-show="item.type == 'singleChoice'">
-            <li>{{ i.content }}</li>
+        <template v-for="(question, index_q) in textPaper">
+          <p>{{ question.content }}</p>
+          <div v-show="question.type == 'singleChoice' || question.type == 'trueOrFalse'">
+            <el-radio-group v-model="form.questions[index_q].answer">
+              <el-radio v-for="answer in question.answers" :label="answer.id.toString()">{{ answer.content }}</el-radio>
+            </el-radio-group>
+          </div>
+
+          <div v-show="question.type == 'shortAnswer'">
+            <el-input v-model="form.questions[index_q].answer" placeholder="请做答"></el-input>
+          </div>
+          <!-- <ul v-for="(answer, a_id) in question.answers" v-show="question.type == 'singleChoice'">
+            <li>{{ answer.content }}</li>
           </ul>
-          <el-radio-group v-model="form.questions[index].answer" v-show="item.type == 'singleChoice'">
-            <el-radio :label=String(item.answers[0].id) >A</el-radio>
-            <el-radio :label=String((item.answers[0].id)+1) >B</el-radio>
-            <el-radio :label=String((item.answers[0].id)+2) >C</el-radio>
-            <el-radio :label=String((item.answers[0].id)+3) >D</el-radio>
+          <el-radio-group v-model="form.questions[q_id].answer" v-show="question.type == 'singleChoice'">
+            <el-radio :label=String(question.answers[0].id)>A</el-radio>
+            <el-radio :label=String((question.answers[0].id) + 1)>B</el-radio>
+            <el-radio :label=String((question.answers[0].id) + 2)>C</el-radio>
+            <el-radio :label=String((question.answers[0].id) + 3)>D</el-radio>
           </el-radio-group>
-          <el-radio-group v-model="form.questions[index].answer" v-show="item.type == 'trueOrFalse'">
-            <el-radio :label=String(item.answers[0].id) >true</el-radio>
-            <el-radio :label=String((item.answers[0].id)+1) >false</el-radio>
+          <el-radio-group v-model="form.questions[q_id].answer" v-show="question.type == 'trueOrFalse'">
+            <el-radio :label=String(question.answers[0].id)>true</el-radio>
+            <el-radio :label=String((question.answers[0].id) + 1)>false</el-radio>
           </el-radio-group>
-          <el-form-item label="" prop="" v-show="item.type == 'shortAnswer'">
+          <el-form-question label="" prop="" v-show="question.type == 'shortAnswer'">
             <el-input v-model="form.exam_id" autocomplete="off" placeholder=""></el-input>
-          </el-form-item>
-          <el-divider> </el-divider>
+          </el-form-question>
+          <el-divider> </el-divider> -->
         </template>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -42,13 +50,12 @@
       </el-table-column>
       -->
 
-      <el-table-column prop="name" label="试卷名称" width="120">
+      <el-table-column prop="testpaper_name" label="试卷名称" width="120">
       </el-table-column>
-      <el-table-column prop="created" label="创建日期" width="250">
+      <el-table-column prop="testpaper_duration" label="考试时长" width="120">
       </el-table-column>
-      <el-table-column prop="duration" label="考试时长" width="120">
-      </el-table-column>
-      <el-table-column prop="passline" label="合格分数" width="150">
+      <el-table-column prop="testpaper_score" label="总分" width="120"></el-table-column>
+      <el-table-column prop="testpaper_passline" label="合格分数" width="150">
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="120">
         <template slot-scope="scope">
@@ -94,11 +101,9 @@ export default {
   methods: {
     //获取全部试卷信息
     getTabelInfo() {
-      // const token = cookie.get('jwt')
-      axios.get('/paper').then(res => {
-        // console.log(res.data);
-        this.tableData = res.data;//将后台传递的数组赋值给定义的空数组
-        // console.log(this.tableData)//检查一下数组内是否有数据
+      let token = cookie.get('jwt')
+      axios.get('/wrong/myExams', { headers: { 'Authorization': token } }).then(res => {
+        this.tableData = res.data['testpaper'];//将后台传递的数组赋值给定义的空数组
       }).catch(res => {
         console.log("异常触发");
         console.log(res);//发生错误时执行的代码
@@ -109,20 +114,20 @@ export default {
     getTextPaper(id) {
       // const token = cookie.get('jwt')
       axios.get('/paper/' + id).then(res => {
-        // console.log(res.data.questions);
         this.textPaper = res.data.questions;
         this.dialogFormVisible = true;
         // this.tableData = res.data;//将后台传递的数组赋值给定义的空数组
-        // console.log(this.tableData)//检查一下数组内是否有数据
         this.form.exam_id = res.data.id; //给form表单初始化
-        for (let i in this.textPaper) {
-          this.form.questions[i] = {
-            question_id: this.textPaper[i].id,
-            answer: '',
-            type: this.textPaper[i].type
-          }
+        this.form.questions = []
+
+        for (let i = 0; i < this.textPaper.length; i++) {
+          let question = this.textPaper[i]
+          this.form.questions.push({
+            'question_id': question.id,
+            'answer': '',
+            'type': question.type
+          })
         }
-        console.log(this.form);
       }).catch(res => {
         console.log("异常触发");
         console.log(res); //发生错误时执行的代码
@@ -132,7 +137,6 @@ export default {
     postTextPaper() {
       const token = cookie.get('jwt')
       axios.post('/wrong/myExam', this.form, { headers: { 'Authorization': token } }).then(res => {
-        // console.log(this.form);
       }).catch(res => {
         console.log("异常触发");
         console.log(res); //发生错误时执行的代码
@@ -140,7 +144,6 @@ export default {
     },
 
     submitForm() {
-      // console.log(this.radio);
       console.log(this.form);
       this.$confirm('确认交卷?', '提示', {
         confirmButtonText: '是',
@@ -148,14 +151,14 @@ export default {
         type: 'warning'
       }).then(() => {
         this.postTextPaper();
+        this.dialogFormVisible = false
       }).catch(() => {
         alert('已取消交卷!');
       })
     },
 
     handle(row) {
-      this.id = row.id;
-      console.log(this.id);
+      this.id = row.testpaper_id;
     },
 
     open() {
@@ -166,7 +169,7 @@ export default {
       }).then(() => {
         this.getTextPaper(this.id);
       }).catch(() => {
-        alert('已取消删除!');
+        // alert('已取消删除!');
       });
     },
 
