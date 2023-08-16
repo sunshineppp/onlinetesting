@@ -128,7 +128,7 @@ export default {
 
 <style>
 .container {
-  height: 650px;
+  height: 100%;
   background-image: linear-gradient(to right, #fbc2eb, #a6c1ee);
 }
 

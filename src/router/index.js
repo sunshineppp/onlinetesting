@@ -9,6 +9,7 @@ import TextPaper from '../components/TextPaper.vue'
 import Synopsis from '../components/Synopsis.vue'
 import Mine from '../components/Mine.vue'
 import text from '../components/text.vue'
+import EditPaper from '@/components/EditPaper.vue'
 
 //防止push重复跳转同一个路由
 const originalPush = VueRouter.prototype.push
@@ -54,7 +55,18 @@ const routes = [
       },
       {
         path: 'textPaper',
+        name: 'textPaper',
         component: TextPaper
+      },
+      {
+        path: 'textPaper/create',
+        name: 'createPaper',
+        component: EditPaper
+      },
+      {
+        path: 'textPaper/update/:paper_id',
+        name: 'updatePaper',
+        component: EditPaper
       },
       {
         path: 'synopsis',
@@ -70,6 +82,7 @@ const routes = [
         path: 'text',
         component: text
       }
+
     ]
   },
 ]

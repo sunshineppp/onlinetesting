@@ -21,11 +21,14 @@
       </el-table-column>
       <el-table-column prop="passline" label="及格分数线" width="150">
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="200">
+      <el-table-column fixed="right" label="操作" width="250">
         <template slot-scope="scope">
           <el-button-group>
-            <el-button size="medium" plain icon="el-icon-edit" @click="modifyPaper(scope.row)">修改</el-button>
-            <el-button size="medium" type="danger" plain icon="el-icon-delete" @click="deletePaper(scope.row.id)">删除</el-button>
+            <!-- <el-button size="medium" plain icon="el-icon-search" @click="checkPaper(scope.row.id)">查看</el-button> -->
+            <el-button size="medium" plain type="primary" icon="el-icon-edit"
+              @click="modifyPaper(scope.row.id)">修改</el-button>
+            <el-button size="medium" type="danger" plain icon="el-icon-delete"
+              @click="deletePaper(scope.row.id)">删除</el-button>
           </el-button-group>
         </template>
       </el-table-column>
@@ -38,6 +41,8 @@
         layout="total, sizes, prev, pager, next, jumper" :total="tableData.length">
       </el-pagination>
     </div>
+
+    <router-view />
 
   </div>
 </template>
@@ -58,15 +63,33 @@ export default {
   methods: {
 
     addPaper() {
-      
+      this.$router.push({ name: 'createPaper' }).catch(() => { })
     },
+
+    // checkPaper() {
+
+    // },
 
     deletePaper(id) {
-      console.log(id)
+      let token = cookie.get('jwt')
+      axios.delete('/paper/delete/' + id, { headers: { 'Authorization': token } })
+        .then(() => {
+          this.$notify({
+            type: 'success',
+            title: '删除成功'
+          })
+          return axios.get('/paper', { headers: { 'Authorization': token } })
+        })
+        .then((res) => {
+          this.tableData = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
 
-    modifyPaper(row) {
-
+    modifyPaper(id) {
+      this.$router.push({name: 'updatePaper', params: {'paper_id': id}})
     },
 
     open() {
