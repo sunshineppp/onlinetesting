@@ -58,7 +58,6 @@ export default {
     methods: {
         show() {
             if (JSON.stringify(this.questionID.sort()) !== JSON.stringify(this.oldQuestionID.sort())) {
-                console.log('fuck!')
                 this.$refs.questionTable.clearSelection()
             }
             this.questions.forEach(q => {
