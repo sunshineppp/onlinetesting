@@ -1,6 +1,11 @@
 <template>
   <div class="textPaper">
-
+    <el-header style="background-color: #fff;">
+      <!-- dialogForm -->
+      <div style="margin-right: 10px; text-align: right;">
+        <el-button type="primary" round @click="addPaper()">添加</el-button>
+      </div>
+    </el-header>
     <!-- slice(a,b)的作用是从已有的数组中返回选定的元素"a"表示开始，"b"表示结束。 -->
     <el-table :data="tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)" @row-click="handle" style="width: 90%;
       margin: auto;
@@ -16,11 +21,15 @@
       </el-table-column>
       <el-table-column prop="passline" label="及格分数线" width="150">
       </el-table-column>
-      <el-table-column fixed="right" label="操作" width="120">
+      <el-table-column fixed="right" label="操作" width="250">
         <template slot-scope="scope">
-          <el-button @click="open" type="text" size="small">
-            write
-          </el-button>
+          <el-button-group>
+            <!-- <el-button size="medium" plain icon="el-icon-search" @click="checkPaper(scope.row.id)">查看</el-button> -->
+            <el-button size="medium" plain type="primary" icon="el-icon-edit"
+              @click="modifyPaper(scope.row.id)">修改</el-button>
+            <el-button size="medium" type="danger" plain icon="el-icon-delete"
+              @click="deletePaper(scope.row.id)">删除</el-button>
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>
@@ -33,11 +42,14 @@
       </el-pagination>
     </div>
 
+    <router-view />
+
   </div>
 </template>
   
 <script>
 import axios from 'axios'
+import cookie from 'js-cookie'
 
 export default {
   name: 'textPaper',
@@ -49,19 +61,47 @@ export default {
     }
   },
   methods: {
-    
+
+    addPaper() {
+      this.$router.push({ name: 'createPaper' }).catch(() => { })
+    },
+
+    // checkPaper() {
+
+    // },
+
+    deletePaper(id) {
+      let token = cookie.get('jwt')
+      axios.delete('/paper/delete/' + id, { headers: { 'Authorization': token } })
+        .then(() => {
+          this.$notify({
+            type: 'success',
+            title: '删除成功'
+          })
+          return axios.get('/paper', { headers: { 'Authorization': token } })
+        })
+        .then((res) => {
+          this.tableData = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
+    modifyPaper(id) {
+      this.$router.push({name: 'updatePaper', params: {'paper_id': id}})
+    },
+
     open() {
     },
 
     handle(row) {
-      this.id = row.id;
-      console.log(this.id);
+
     },
 
     //每页条数改变时触发 选择一页显示多少行
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-      this.currentPage = 1;
+      console.log(`每页 ${val} 条`); this.currentPage = 1;
       this.pageSize = val;
     },
 
@@ -70,6 +110,15 @@ export default {
       console.log(`当前页: ${val}`);
       this.currentPage = val;
     }
+  },
+  created() {
+    const token = cookie.get('jwt')
+    axios.get('/paper', { headers: { 'Authorization': token } })
+      .then((response) => {
+        this.tableData = response.data
+      }).catch((error) => {
+        console.log(error)
+      })
   }
 }
 </script>
