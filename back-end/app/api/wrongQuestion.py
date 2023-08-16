@@ -100,7 +100,7 @@ def create_exam():
     if 'questions' not in data or not data.get('questions', None):
          message['questions'] = 'Please provide questions.'
     if message:
-        return message
+        return bad_response(message)
     
     if db.session.query(UserExam).filter(UserExam.user_id == g.user_id)\
         .filter(UserExam.testpaper_id == data.get('exam_id')).first():
@@ -286,12 +286,12 @@ def myExams():
     try:
         # a=1/0
         testpapers = db.session.query(Testpaper.id,Testpaper.name,Testpaper.passline,Testpaper.duration).all()
-        # print(testpapers)
+        print(testpapers)
         for testpaper in testpapers:
             # print(testpaper[0])
             user_exam = db.session.query(UserExam).filter(UserExam.user_id == g.user_id)\
                 .filter(UserExam.testpaper_id == testpaper[0]).first()
-            
+            print(user_exam)
             if user_exam:
                 continue
 
@@ -309,6 +309,7 @@ def myExams():
                 'testpaper_duration':testpaper[3],
             }
             paper.append(data)
+
     except Exception as e:
         return bad_response('正在维护')
 
