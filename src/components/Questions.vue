@@ -4,7 +4,7 @@
     <el-header style="background-color: #fff;">
       <!-- dialogForm -->
       <div style="margin-right: 10px; text-align: right;">
-        <el-button type="primary" round @click="Add()">添加</el-button>
+        <el-button type="primary" round @click="resetForm2()">添加</el-button>
       </div>
     </el-header>
 
@@ -29,26 +29,32 @@
         </template> -->
 
         <template v-for="(item, index) in form.answers">
-          <el-form-item label="" prop="item">
-            {{ index }}
+          <el-form-item label="选项" prop="item" v-show="form.type == 'singleChoice'">
             <el-input v-model="form.answers[index].content" autocomplete="off" placeholder="answer"></el-input>
           </el-form-item>
         </template>
 
-        <el-form-item>
-          <el-radio-group label="正确答案：" v-model="radio" v-show="form.type == 'singleChoice'">
+        <el-form-item label="正确答案：" prop="radio">
+          <el-radio-group v-model="form.radio" v-show="form.type == 'singleChoice'">
             <el-radio :label=0>A</el-radio>
             <el-radio :label=1>B</el-radio>
             <el-radio :label=2>C</el-radio>
             <el-radio :label=3>D</el-radio>
           </el-radio-group>
-          <el-radio-group label="正确答案：" v-model="radio" v-show="form.type == 'trueOrFalse'">
+          <el-radio-group v-model="form.radio" v-show="form.type == 'trueOrFalse'">
             <el-radio :label=0>true</el-radio>
             <el-radio :label=1>false</el-radio>
           </el-radio-group>
+
+          <template v-for="(item, index) in form.answers">
+            <el-form-item label="" prop="answers" v-show="form.type == 'shortAnswer'">
+              <el-input v-model="form.answers[index].content" autocomplete="off" placeholder="answer"></el-input>
+            </el-form-item>
+          </template>
+
         </el-form-item>
 
-        <el-form-item label="答案解析" prop="analysis">
+        <el-form-item label="解析" prop="analysis">
           <el-input v-model="form.analysis" autocomplete="off" placeholder="answers"></el-input>
         </el-form-item>
         <el-form-item label="难度" prop="level">
@@ -76,7 +82,7 @@
 
       <el-table-column prop="content" label="题干" width="450">
       </el-table-column>
-      <el-table-column prop="type" label="题型" width="100">
+      <el-table-column prop="type_2" label="题型" width="100">
       </el-table-column>
       <el-table-column prop="level" label="难度" width="100">
       </el-table-column>
@@ -110,9 +116,9 @@ export default {
   name: 'questions',
   data() {
     return {
+      isWatch: '',
       id: '',
       type: '',
-      radio: '',
       tableData: [],
       dialogFormVisible: false,
       currentPage: 1, // 当前页码
@@ -126,6 +132,7 @@ export default {
         level: '',
         point: '',
         id: '',
+        radio: ''
       },
 
       //表单规则
@@ -134,6 +141,7 @@ export default {
           { required: true, message: '请输入题干信息', trigger: 'blur' }
         ],
         answers: [
+          { required: true, message: '请输入信息', trigger: 'blur' }
         ],
         analysis: [
           { required: true, message: '请输入题目解析', trigger: 'blur' },
@@ -146,6 +154,9 @@ export default {
         ],
         point: [
           { required: true, message: '请输入题目分值', trigger: 'blur' }
+        ],
+        radio: [
+          { required: true, message: '请选择正确答案', trigger: 'change' }
         ]
       },
     }
@@ -155,9 +166,12 @@ export default {
     getTabelInfo() {
       // const token = cookie.get('jwt')
       axios.get('/question').then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         this.tableData = res.data;//将后台传递的数组赋值给定义的空数组
-        console.log(this.tableData)//检查一下数组内是否有数据
+        for (let i in this.tableData) {
+          this.tableData[i].type_2 = this.typeName(this.tableData[i].type);
+        }
+        // console.log(this.tableData)//检查一下数组内是否有数据
       }).catch(res => {
         console.log("异常触发");
         console.log(res);//发生错误时执行的代码
@@ -177,15 +191,15 @@ export default {
     },
 
     //修改试题
-    reviseUser(id) {
+    reviseQuestions(id) {
       // const token = cookie.get('jwt')
       axios.post('/question/update/' + id, this.form).then(res => {
         alert('修改成功!');
         this.getTabelInfo();
         this.dialogFormVisible = false;
-      }).catch(reason => {
+      }).catch(res => {
         console.log("异常触发");
-        console.log(reason);
+        console.log(res);
       })
     },
 
@@ -214,7 +228,7 @@ export default {
           else {
             console.log("Revise");
             console.log(this.id);
-            this.reviseUser(this.id);
+            this.reviseQuestions(this.id);
           }
         } else {
           console.log('error submit!!');
@@ -226,10 +240,19 @@ export default {
     //重置表单
     resetForm(formName) {
       this.dialogFormVisible = false;
-      this.$refs[formName].resetFields();
+      this.form.radio = '';
+    },
+
+    //点击添加按钮清空form
+    resetForm2() {
+      this.form.analysis = this.form.answers = this.form.content = this.form.id = this.form.level = this.form.point = this.form.type = '';
+      this.dialogFormVisible = true;
+      this.type = 'Add';
     },
 
     handle(row) {
+      this.isWatch = 1; // 阻止点击表格行赋值时触发watch，使选项不为空
+
       this.id = row.id;
       this.form.analysis = row.analysis;
       this.form.answers = row.answers;
@@ -240,6 +263,7 @@ export default {
       // this.form = row;
       // console.log(this.form.answers);
       // console.log(this.form.answers[0].content)
+
     },
 
     Add() {
@@ -275,7 +299,16 @@ export default {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
       this.currentPage = val;
-    }
+    },
+
+    //判别类型名称
+    typeName(type) {
+      switch (type) {
+        case ("singleChoice"): return "选择题"; break;
+        case ("trueOrFalse"): return "判断题"; break;
+        case ("shortAnswer"): return "主观题"; break;
+      }
+    },
   },
   mounted() {
     this.getTabelInfo(); //每次加载组件获取试卷信息
@@ -283,6 +316,10 @@ export default {
   watch: {
     // 每当 form.type 改变时，这个函数就会执行
     "form.type"(newQuestion, oldQuestion) {
+      if (this.isWatch) {
+        this.isWatch = 0; //允许watch
+        return 0;
+      }
       if (this.form.type == "singleChoice") {
         this.form.answers = [
           {
@@ -330,10 +367,10 @@ export default {
       }
     },
     radio(newQuestion, oldQuestion) {
-
-      this.form.answers[this.radio].correct = 1;
-      
-    }
+      if (this.form.radio != '') {
+        this.form.answers[this.form.radio].correct = 1;
+      }
+    },
   },
 }
 </script>

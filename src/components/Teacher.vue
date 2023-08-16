@@ -1,12 +1,12 @@
 <template>
-  <div class="mine">
-    这是我的
+  <div class="Teacher">
+    这是批改试卷
   </div>
 </template>
 
 <script>
   export default {
-    name: 'mine',
+    name: 'teacher',
     data(){
       return{
       }

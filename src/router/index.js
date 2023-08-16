@@ -7,7 +7,7 @@ import Exam from '../components/Exam.vue'
 import Questions from '../components/Questions.vue'
 import TextPaper from '../components/TextPaper.vue'
 import Synopsis from '../components/Synopsis.vue'
-import Mine from '../components/Mine.vue'
+import Teacher from '../components/Teacher.vue'
 import text from '../components/text.vue'
 import EditPaper from '@/components/EditPaper.vue'
 
@@ -73,8 +73,8 @@ const routes = [
         component: Synopsis
       },
       {
-        path: 'mine',
-        component: Mine
+        path: 'teacher',
+        component: Teacher
       },
 
       //
