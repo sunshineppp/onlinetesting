@@ -27,6 +27,30 @@ def getPapers():
 
     return jsonify(papers)
 
+@bp.route('/info/<int:id>', methods=('GET',))
+def getOnePaperInfo(id):
+    paper = db.session.query(Testpaper).with_entities(
+        Testpaper.id,
+        Testpaper.duration,
+        Testpaper.name,
+        Testpaper.passline,
+        Testpaper.created       
+    ).filter(Testpaper.id == id).first()
+
+    if paper is None: 
+        return 'Testpaper not found', 404
+
+    paper = dict(paper._mapping)
+
+    questions = db.session.query(TestpaperQuestion.question_id).filter(
+            TestpaperQuestion.testpaper_id == paper['id']
+        ).all()
+    questions = list(map(lambda q: q[0], questions))
+    paper['questionID'] = list(questions)
+
+    return jsonify(paper)
+ 
+
 @bp.route('/<int:id>', methods=('GET',))
 def getOnePaper(id):
     try:
@@ -54,7 +78,7 @@ def createPaper():
         question = db.session.query(Question).filter(Question.id == question_id).first()
         total_point += question.point
     
-    passline = total_point * 0.6
+    passline = round(total_point * 0.6, 2)
 
     testpaper = Testpaper(
         duration = duration,
@@ -104,7 +128,7 @@ def modifyPaper(id):
         question = db.session.query(Question).filter(Question.id == question_id).first()
         total_point += question.point
     
-    passline = total_point * 0.6
+    passline = round(total_point * 0.6, 2)
 
     try:
         db.session.query(Testpaper).filter(Testpaper.id == id).update({
