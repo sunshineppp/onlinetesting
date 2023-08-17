@@ -131,7 +131,7 @@ class Role(PaginatedAPIMixin,db.Model):
                 setattr(self, field, data[field])
         if new_role:
             time_tuple = time.localtime(time.time())
-            create_time = "{}年{}月{}日{}点{}分{}秒".format(time_tuple[0],time_tuple[1],time_tuple[2],time_tuple[3],time_tuple[4],time_tuple[5])
+            create_time = "{}年{}月{}日{}点{}分".format(time_tuple[0],time_tuple[1],time_tuple[2],time_tuple[3],time_tuple[4])
             self.create_time = create_time
 
 
