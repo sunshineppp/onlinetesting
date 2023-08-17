@@ -110,6 +110,7 @@
   
 <script>
 import axios from 'axios'
+import cookie from 'js-cookie'
 
 export default {
   name: 'questions',
@@ -204,7 +205,7 @@ export default {
 
     //删除试题
     deleteQuestions(id) {
-      // const token = cookie.get('jwt')
+      const token = cookie.get('jwt')
       console.log(this.id);
       axios.delete('/question/delete/' + id, {headers: {'Authorization': token}}).then(res => {
         alert('删除成功!');
