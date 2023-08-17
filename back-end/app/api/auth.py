@@ -37,7 +37,7 @@ def permission_require(func):
                     token,
                     current_app.config['SECRET_KEY'],
                     algorithms=['HS256'])
-        except (jwt.exceptions.ExpiredSignatureError, jwt.exceptions.InvalidSignatureError) as e:
+        except (jwt.exceptions.ExpiredSignatureError, jwt.exceptions.InvalidSignatureError, jwt.exceptions.DecodeError) as e:
             return bad_request('登录过期')
         permission = payload.get('permission_id')
         # permission = data['login_permission_id']
@@ -65,7 +65,7 @@ def permission_require_student(func):
                     token,
                     current_app.config['SECRET_KEY'],
                     algorithms=['HS256'])
-        except (jwt.exceptions.ExpiredSignatureError, jwt.exceptions.InvalidSignatureError) as e:
+        except (jwt.exceptions.ExpiredSignatureError, jwt.exceptions.InvalidSignatureError, jwt.exceptions.DecodeError) as e:
             return bad_request('登录过期')
         permission = payload.get('permission_id')
         # permission = data['login_permission_id']
@@ -92,7 +92,7 @@ def permission_require_teacher(func):
                     token,
                     current_app.config['SECRET_KEY'],
                     algorithms=['HS256'])
-        except (jwt.exceptions.ExpiredSignatureError, jwt.exceptions.InvalidSignatureError) as e:
+        except (jwt.exceptions.ExpiredSignatureError, jwt.exceptions.InvalidSignatureError,jwt.exceptions.DecodeError) as e:
             return bad_request('登录过期')
         permission = payload.get('permission_id')
         # permission = data['login_permission_id']
