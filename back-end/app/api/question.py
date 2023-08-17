@@ -4,8 +4,11 @@ from app import db
 from app.model.models import Question, Answer
 from app.utils import questionUtil
 from sqlalchemy import exc
+from app.api.auth import token_auth, permission_require_teacher, permission_require_student
 
+@token_auth.verify_token
 @bp.route('/', methods = ('GET',))
+@permission_require_student
 def getQuestions():
     questions = db.session.query(Question).with_entities(
         Question.id,
@@ -28,7 +31,9 @@ def getQuestions():
 
     return jsonify(questions)
 
+@token_auth.verify_token
 @bp.route('/<int:id>', methods = ('GET',))
+@permission_require_student
 def getOneQuestion(id):
     question = db.session.query(Question).with_entities(
         Question.id,
@@ -52,7 +57,9 @@ def getOneQuestion(id):
         question['answers'] = answers
         return jsonify(question)
 
+@token_auth.verify_token
 @bp.route('/create', methods = ('POST',))
+@permission_require_teacher
 def createQuestion():
     request_data = request.get_json()
 
@@ -80,14 +87,18 @@ def createQuestion():
 
     return 'Add question success', 200
 
+@token_auth.verify_token
 @bp.route('/delete/<int:id>', methods = ('DELETE',))
+@permission_require_teacher
 def deleteQuestion(id):
     db.session.query(Answer).filter(Answer.question_id == id).delete()
     db.session.query(Question).filter(Question.id == id).delete()
     db.session.commit()
     return 'delete success', 200
 
+@token_auth.verify_token
 @bp.route('/update/<int:id>', methods=('POST',))
+@permission_require_teacher
 def updateQuestion(id):
     request_data = request.get_json()
     try:

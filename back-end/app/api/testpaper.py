@@ -5,8 +5,11 @@ from app import db
 from flask import request, jsonify
 from time import strptime, strftime, localtime
 from sqlalchemy import exc
+from app.api.auth import token_auth, permission_require_teacher, permission_require_student
 
+@token_auth.verify_token
 @bp.route('/', methods = ('GET',))
+@permission_require_student
 def getPapers():
     papers = db.session.query(Testpaper).with_entities(
         Testpaper.id,
@@ -27,7 +30,9 @@ def getPapers():
 
     return jsonify(papers)
 
+@token_auth.verify_token
 @bp.route('/info/<int:id>', methods=('GET',))
+@permission_require_student
 def getOnePaperInfo(id):
     paper = db.session.query(Testpaper).with_entities(
         Testpaper.id,
@@ -50,8 +55,9 @@ def getOnePaperInfo(id):
 
     return jsonify(paper)
  
-
+@token_auth.verify_token
 @bp.route('/<int:id>', methods=('GET',))
+@permission_require_student
 def getOnePaper(id):
     try:
         paper = testpaperUtil.getPaperUtil(id)
@@ -60,7 +66,9 @@ def getOnePaper(id):
 
     return jsonify(paper)
 
+@token_auth.verify_token
 @bp.route('/edit', methods = ('POST',))
+@permission_require_teacher
 def createPaper():
 
     request_data = request.get_json()
@@ -114,7 +122,9 @@ def createPaper():
     
     return jsonify(paper)
 
+@token_auth.verify_token
 @bp.route('/edit/<int:id>', methods=('POST',)) 
+@permission_require_teacher
 def modifyPaper(id):
     request_data = request.get_json()
     try: 
@@ -154,8 +164,9 @@ def modifyPaper(id):
 
     return '', 200
 
-
+@token_auth.verify_token
 @bp.route('/delete/<int:id>', methods=('DELETE',))
+@permission_require_teacher
 def deletePaper(id):
     db.session.query(TestpaperQuestion).filter(TestpaperQuestion.testpaper_id == id).delete()
     db.session.query(Testpaper).filter(Testpaper.id == id).delete()
