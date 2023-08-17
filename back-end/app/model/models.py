@@ -32,6 +32,38 @@ class PaginatedAPIMixin(object):
         return data
 
 
+class Role(PaginatedAPIMixin,db.Model):
+    __tablename__ = 'role'
+
+    id = db.Column(db.Integer, primary_key=True)
+    permission_id = db.Column(db.Integer, nullable=False, unique=True)
+    permission_name = db.Column(db.String(64), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    create_time = db.Column(db.Text, nullable=False)
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'permission_id': self.permission_id,
+            'permission_name': self.permission_name,
+            'description': self.description,
+            'create_time': self.create_time
+            # '_links': {
+            # }
+        }
+        return data
+
+
+    def from_dict(self, data, new_role = False):
+        for field in ['permission_id','permission_name','description']:
+            if field in data:
+                setattr(self, field, data[field])
+        if new_role:
+            time_tuple = time.localtime(time.time())
+            create_time = "{}年{}月{}日{}点{}分".format(time_tuple[0],time_tuple[1],time_tuple[2],time_tuple[3],time_tuple[4])
+            self.create_time = create_time
+
+
 class User(PaginatedAPIMixin,db.Model):
     __tablename__ = 'user'
 
@@ -39,7 +71,9 @@ class User(PaginatedAPIMixin,db.Model):
     account = db.Column(db.String(64), nullable=False)
     password = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(128), nullable=False)
-    permission_id = db.Column(db.Integer, nullable=False)
+    permission_id = db.Column(db.ForeignKey('role.permission_id', ondelete='CASCADE'), nullable=False)
+
+    role = db.relationship('Role', primaryjoin='User.permission_id == Role.permission_id', backref='user', passive_deletes=True)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -99,52 +133,15 @@ class User(PaginatedAPIMixin,db.Model):
         return User.query.get(payload.get('user_id'))
 
 
-
-
-class Role(PaginatedAPIMixin,db.Model):
-    __tablename__ = 'role'
-
-    id = db.Column(db.Integer, primary_key=True)
-    permission_id = db.Column(db.ForeignKey('user.permission_id'), nullable=False)
-    permission_name = db.Column(db.String(64), nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    create_time = db.Column(db.Text, nullable=False)
-
-    user = db.relationship('User', primaryjoin='Role.permission_id == User.permission_id', backref='roles')
-
-    def to_dict(self):
-        data = {
-            'id': self.id,
-            'permission_id': self.permission_id,
-            'permission_name': self.permission_name,
-            'description': self.description,
-            'create_time': self.create_time
-            # '_links': {
-            # }
-        }
-        return data
-
-
-    def from_dict(self, data, new_role = False):
-        for field in ['permission_id','permission_name','description']:
-            if field in data:
-                setattr(self, field, data[field])
-        if new_role:
-            time_tuple = time.localtime(time.time())
-            create_time = "{}年{}月{}日{}点{}分".format(time_tuple[0],time_tuple[1],time_tuple[2],time_tuple[3],time_tuple[4])
-            self.create_time = create_time
-
-
-
 class Answer(db.Model):
     __tablename__ = 'answer'
 
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
     correct = db.Column(db.Integer, nullable = False)
-    question_id = db.Column(db.ForeignKey('question.id'), nullable=False)
+    question_id = db.Column(db.ForeignKey('question.id', ondelete='CASCADE'), nullable=False)
 
-    question = db.relationship('Question', primaryjoin='Answer.question_id == Question.id', backref='answers')
+    question = db.relationship('Question', primaryjoin='Answer.question_id == Question.id', backref='answer', passive_deletes = True)
 
 
 
@@ -175,28 +172,28 @@ class TestpaperQuestion(db.Model):
     __tablename__ = 'testpaper_question'
 
     id = db.Column(db.Integer, primary_key=True)
-    question_id = db.Column(db.ForeignKey('question.id'), nullable=False)
-    testpaper_id = db.Column(db.ForeignKey('testpaper.id'), nullable=False)
+    question_id = db.Column(db.ForeignKey('question.id', ondelete='CASCADE'), nullable=False)
+    testpaper_id = db.Column(db.ForeignKey('testpaper.id', ondelete='CASCADE'), nullable=False)
 
-    question = db.relationship('Question', primaryjoin='TestpaperQuestion.question_id == Question.id', backref='testpaper_questions')
-    testpaper = db.relationship('Testpaper', primaryjoin='TestpaperQuestion.testpaper_id == Testpaper.id', backref='testpaper_questions')
+    question = db.relationship('Question', primaryjoin='TestpaperQuestion.question_id == Question.id', backref='testpaper_questions', passive_deletes=True)
+    testpaper = db.relationship('Testpaper', primaryjoin='TestpaperQuestion.testpaper_id == Testpaper.id', backref='testpaper_questions', passive_deletes=True)
 
 
 class UserExam(db.Model):
     __tablename__ = 'user_exam'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.ForeignKey('user.id'), nullable=False)
-    testpaper_id = db.Column(db.ForeignKey('testpaper.id'), nullable=False)
-    question_id = db.Column(db.ForeignKey('question.id'), nullable=False)
+    user_id = db.Column(db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    testpaper_id = db.Column(db.ForeignKey('testpaper.id', ondelete='CASCADE'), nullable=False)
+    question_id = db.Column(db.ForeignKey('question.id', ondelete='CASCADE'), nullable=False)
     answer = db.Column(db.Text, nullable=True)
     correct = db.Column(db.Boolean, nullable=True)
     score = db.Column(db.Float, nullable=True)
     exam_time = db.Column(db.Text, nullable=True)
 
-    user = db.relationship('User', primaryjoin='UserExam.user_id == User.id', backref='user_exam')
-    question = db.relationship('Question', primaryjoin='UserExam.question_id == Question.id', backref='user_exam')
-    testpaper = db.relationship('Testpaper', primaryjoin='UserExam.testpaper_id == Testpaper.id', backref='user_exam')
+    user = db.relationship('User', primaryjoin='UserExam.user_id == User.id', backref='user_exam', passive_deletes=True)
+    question = db.relationship('Question', primaryjoin='UserExam.question_id == Question.id', backref='user_exam', passive_deletes=True)
+    testpaper = db.relationship('Testpaper', primaryjoin='UserExam.testpaper_id == Testpaper.id', backref='user_exam', passive_deletes=True)
 
     # def to_dict(self):
     #     data = {
