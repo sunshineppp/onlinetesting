@@ -8,13 +8,13 @@
           <template slot="title"><i class="el-icon-menu"></i>导航</template>
           <el-menu-item index="1-1" @click="gotoPermissions" v-if="permission_id == 3"><i
               class="el-icon-s-check"></i>用户管理</el-menu-item>
-          <el-submenu index="1-2">
+          <el-submenu index="1-2" v-if="permission_id == 3 || permission_id == 2">
             <template slot="title"><i class="el-icon-document"></i>考试管理</template>
             <el-menu-item index="1-2-1" @click="gotoQuestions"><i class="el-icon-document-checked"></i>试题管理</el-menu-item>
             <el-menu-item index="1-2-2" @click="gotoTextPaper"><i class="el-icon-document-checked"></i>试卷管理</el-menu-item>
             <el-menu-item index="1-2-3" @click="gotoTeacher"><i class="el-icon-edit"></i>试卷批改</el-menu-item>
           </el-submenu>
-          <el-submenu index="1-3">
+          <el-submenu index="1-3" v-if="permission_id != 0">
             <template slot="title"><i class="el-icon-document"></i>我的考试</template>
             <el-menu-item index="1-3-1" @click="gotoExam"><i class="el-icon-monitor"></i>在线考试</el-menu-item>
             <el-menu-item index="1-3-2" @click="gotoSynopsis"><i class="el-icon-data-analysis"></i>我的成绩</el-menu-item>

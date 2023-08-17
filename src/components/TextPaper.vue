@@ -25,7 +25,7 @@
         <template slot-scope="scope">
           <el-button-group>
             <!-- <el-button size="medium" plain icon="el-icon-search" @click="checkPaper(scope.row.id)">查看</el-button> -->
-            <el-button size="medium" plain type="primary" icon="el-icon-edit"
+            <el-button size="medium" plain icon="el-icon-edit"
               @click="modifyPaper(scope.row.id)">修改</el-button>
             <el-button size="medium" type="danger" plain icon="el-icon-delete"
               @click="deletePaper(scope.row.id)">删除</el-button>

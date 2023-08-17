@@ -34,7 +34,7 @@
           </el-form-item>
         </template>
 
-        <el-form-item label="正确答案：" prop="radio">
+        <el-form-item label="答案：" prop="radio" v-if="form.type != 'shortAnswer'">
           <el-radio-group v-model="form.radio" v-show="form.type == 'singleChoice'">
             <el-radio :label=0>A</el-radio>
             <el-radio :label=1>B</el-radio>
@@ -45,17 +45,16 @@
             <el-radio :label=0>true</el-radio>
             <el-radio :label=1>false</el-radio>
           </el-radio-group>
-
-          <template v-for="(item, index) in form.answers">
-            <el-form-item label="" prop="answers" v-show="form.type == 'shortAnswer'">
-              <el-input v-model="form.answers[index].content" autocomplete="off" placeholder="answer"></el-input>
-            </el-form-item>
-          </template>
-
         </el-form-item>
 
+        <template v-for="(item, index) in form.answers">
+          <el-form-item label="答案" prop="" v-show="form.type == 'shortAnswer'">
+            <el-input v-model="form.answers[index].content" autocomplete="off" placeholder="answer"></el-input>
+          </el-form-item>
+        </template>
+
         <el-form-item label="解析" prop="analysis">
-          <el-input v-model="form.analysis" autocomplete="off" placeholder="answers"></el-input>
+          <el-input v-model="form.analysis" autocomplete="off" placeholder="analysis"></el-input>
         </el-form-item>
         <el-form-item label="难度" prop="level">
           <el-select v-model="form.level" placeholder="请选择难度">
