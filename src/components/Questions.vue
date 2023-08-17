@@ -165,7 +165,7 @@ export default {
     //获取试题信息
     getTabelInfo() {
       const token = cookie.get('jwt')
-      axios.get('/question', {headers: {'Authorization': token}}).then(res => {
+      axios.get('/question/', {headers: {'Authorization': token}}).then(res => {
         // console.log(res.data);
         this.tableData = res.data;//将后台传递的数组赋值给定义的空数组
         for (let i in this.tableData) {

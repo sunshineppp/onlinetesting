@@ -131,7 +131,7 @@ export default {
     },
     created() {
         let token = cookie.get('jwt')
-        axios.get('/question', { headers: { 'Authorization': token } })
+        axios.get('/question/', { headers: { 'Authorization': token } })
             .then((response) => {
                 this.questions = response.data.map((question) => {
                     question.type = questionTypeMap.get(question.type)
@@ -146,6 +146,7 @@ export default {
                             let duration = res.data.duration.split(':')
                             this.form.duration = (+duration[0]) * 60 + (+duration[1])
                             this.oldQuestionID = res.data.questionID
+                            console.log(this.oldQuestionID)
                         })
                         .catch(err => { console.log(err) })
                 }

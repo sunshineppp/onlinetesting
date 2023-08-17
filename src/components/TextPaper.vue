@@ -78,7 +78,7 @@ export default {
             type: 'success',
             title: '删除成功'
           })
-          return axios.get('/paper', { headers: { 'Authorization': token } })
+          return axios.get('/paper/', { headers: { 'Authorization': token } })
         })
         .then((res) => {
           this.tableData = res.data
@@ -113,7 +113,7 @@ export default {
   },
   created() {
     const token = cookie.get('jwt')
-    axios.get('/paper', { headers: { 'Authorization': token } })
+    axios.get('/paper/', { headers: { 'Authorization': token } })
       .then((response) => {
         this.tableData = response.data
       }).catch((error) => {
