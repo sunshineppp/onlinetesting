@@ -31,4 +31,8 @@ html,body,#app{
   margin: 0px;
   padding: 0px;
 }
+
+::backdrop{
+  background-color: white;
+}
 </style>
