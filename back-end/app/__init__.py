@@ -3,12 +3,20 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
-
+from sqlalchemy.engine import Engine
+from sqlalchemy import event
 
 # Flask-SQLAlchemy plugin
 db = SQLAlchemy()
 # Flask-Migrate plugin
 migrate = Migrate()
+
+@event.listens_for(Engine, 'connect')
+def set_sqlite_pragma(dbapi_connection, connection_record):
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
