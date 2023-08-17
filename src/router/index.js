@@ -10,6 +10,7 @@ import Synopsis from '../components/Synopsis.vue'
 import Teacher from '../components/Teacher.vue'
 import text from '../components/text.vue'
 import EditPaper from '@/components/EditPaper.vue'
+import ExamView from '@/components/ExamView.vue'
 
 //防止push重复跳转同一个路由
 const originalPush = VueRouter.prototype.push
@@ -48,6 +49,11 @@ const routes = [
         path: 'exam',
         name: 'exam',
         component: Exam
+      },
+      {
+        path: 'exam/:exam_id',
+        name: 'takeExam',
+        component: ExamView
       },
       {
         path: 'questions',
