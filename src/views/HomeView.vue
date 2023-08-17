@@ -102,7 +102,7 @@ export default {
 
     //注册账号
     add() {
-      axios.post("http://localhost:5000/api/users/create", this.form).then(res => {
+      axios.post("/api/users/create", this.form).then(res => {
         alert('注册成功!');
         this.dialogFormVisible = false;
       }).catch(reason => {
