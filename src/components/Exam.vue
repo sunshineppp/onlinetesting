@@ -5,8 +5,7 @@
     <el-dialog title="Exam" :visible.sync="dialogFormVisible" append-to-body>
       <el-form :model="form" label-position="right">
         <template v-for="(item, index) in textPaper">
-          <span>{{ textPaper[index].content }}</span>
-          </br>
+          <p>{{ textPaper[index].content }}</p>
           <ul v-for="(i, d) in item.answers" v-show="item.type == 'singleChoice'">
             <li>{{ i.content }}</li>
           </ul>
@@ -36,11 +35,6 @@
       margin: auto;
       margin-top: 20px;
       box-shadow: 0px 5px 10px rgba(0, 0, 0, .12), 0px 5px 10px rgba(0, 0, 0, .04); " max-height="500">
-
-      <!--
-      <el-table-column fixed prop="id" label="试卷编号" width="100">
-      </el-table-column>
-      -->
 
       <el-table-column prop="name" label="试卷名称" width="120">
       </el-table-column>
@@ -129,6 +123,7 @@ export default {
       })
     },
 
+    //提交试卷
     postTextPaper() {
       const token = cookie.get('jwt')
       axios.post('/wrong/myExam', this.form, { headers: { 'Authorization': token } }).then(res => {
