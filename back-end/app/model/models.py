@@ -7,6 +7,7 @@ import time
 from datetime import datetime, timedelta
 import jwt
 from flask import url_for,current_app
+from sqlalchemy.orm import backref
 
 class PaginatedAPIMixin(object):
     @staticmethod
@@ -144,7 +145,7 @@ class Answer(db.Model):
     correct = db.Column(db.Integer, nullable = False)
     question_id = db.Column(db.ForeignKey('question.id'), nullable=False)
 
-    question = db.relationship('Question', primaryjoin='Answer.question_id == Question.id', backref='answers')
+    question = db.relationship('Question', primaryjoin='Answer.question_id == Question.id', backref=backref('answer', cascade='all, delete'))
 
 
 
@@ -178,8 +179,8 @@ class TestpaperQuestion(db.Model):
     question_id = db.Column(db.ForeignKey('question.id'), nullable=False)
     testpaper_id = db.Column(db.ForeignKey('testpaper.id'), nullable=False)
 
-    question = db.relationship('Question', primaryjoin='TestpaperQuestion.question_id == Question.id', backref='testpaper_questions')
-    testpaper = db.relationship('Testpaper', primaryjoin='TestpaperQuestion.testpaper_id == Testpaper.id', backref='testpaper_questions')
+    question = db.relationship('Question', primaryjoin='TestpaperQuestion.question_id == Question.id', backref=backref('testpaper_questions', cascade='all, delete'))
+    testpaper = db.relationship('Testpaper', primaryjoin='TestpaperQuestion.testpaper_id == Testpaper.id', backref=backref('testpaper_questions', cascade='all, delete'))
 
 
 class UserExam(db.Model):
@@ -194,9 +195,9 @@ class UserExam(db.Model):
     score = db.Column(db.Float, nullable=True)
     exam_time = db.Column(db.Text, nullable=True)
 
-    user = db.relationship('User', primaryjoin='UserExam.user_id == User.id', backref='user_exam')
-    question = db.relationship('Question', primaryjoin='UserExam.question_id == Question.id', backref='user_exam')
-    testpaper = db.relationship('Testpaper', primaryjoin='UserExam.testpaper_id == Testpaper.id', backref='user_exam')
+    user = db.relationship('User', primaryjoin='UserExam.user_id == User.id', backref=backref('user_exam', cascade='all, delete'))
+    question = db.relationship('Question', primaryjoin='UserExam.question_id == Question.id', backref=backref('user_exam', cascade='all, delete'))
+    testpaper = db.relationship('Testpaper', primaryjoin='UserExam.testpaper_id == Testpaper.id', backref=backref('user_exam', cascade='all, delete'))
 
     # def to_dict(self):
     #     data = {

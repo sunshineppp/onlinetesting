@@ -91,7 +91,7 @@ def createQuestion():
 @bp.route('/delete/<int:id>', methods = ('DELETE',))
 @permission_require_teacher
 def deleteQuestion(id):
-    db.session.query(Answer).filter(Answer.question_id == id).delete()
+    # db.session.query(Answer).filter(Answer.question_id == id).delete()
     db.session.query(Question).filter(Question.id == id).delete()
     db.session.commit()
     return 'delete success', 200
