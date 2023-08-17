@@ -121,7 +121,10 @@ def create_exam():
         
         try:
             userexam = UserExam()
-            userexam.exam_time = time.asctime(time. localtime())
+            # userexam.exam_time = time.asctime(time. localtime())
+            time_tuple = time.localtime(time.time())
+            create_time = "{}年{}月{}日{}点{}分".format(time_tuple[0],time_tuple[1],time_tuple[2],time_tuple[3],time_tuple[4])
+            userexam.exam_time = create_time
             userexam.testpaper_id = data.get('exam_id')
             userexam.from_dict(question)
             userexam.user_id = g.user_id
@@ -143,7 +146,8 @@ def create_exam():
             # print(userexam.to_dict())
             db.session.add(userexam)
         except Exception as e:
-            return e.args
+            print(e)
+            return bad_response('System maintenance')
         
     db.session.commit()
     
