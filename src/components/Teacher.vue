@@ -2,7 +2,7 @@
   <div class="teacher">
 
     <!-- slice(a,b)的作用是从已有的数组中返回选定的元素"a"表示开始，"b"表示结束。 -->
-    <el-table :data="tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)" @row-click="handle" style="width: 100%;
+    <el-table :data="tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)" style="width: 100%;
       margin: auto;
       margin-top: 20px;
       box-shadow: 0px 5px 10px rgba(0, 0, 0, .12), 0px 5px 10px rgba(0, 0, 0, .04); " max-height="500">
@@ -19,7 +19,7 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="120">
         <template slot-scope="scope">
-          <el-button type="primary" size="medium" @click="getCorrectPaper(scope.$index, scope.row)">
+          <el-button type="primary" size="medium" @click="gotoTeacherView(scope.row.user_id, scope.row.testpaper_id_)">
             批改试卷
           </el-button>
         </template>
@@ -40,6 +40,7 @@
 <script>
 import axios from 'axios'
 import cookie from 'js-cookie'
+import router from '@/router'
 
 export default {
   name: 'teacher',
@@ -66,19 +67,20 @@ export default {
       })
     },
 
-    getCorrectPaper(index,row){
-      const token = cookie.get('jwt')
-      axios.get('/wrong/correctPaper/'+row.user_id+'/'+row.testpaper_id_, { headers: { 'Authorization': token } }).then(res => {
-        console.log(res);
-        this.CorrectPaper = res.data.questions;
-        console.log(this.CorrectPaper)
-      }).catch(res => {
-        console.log("异常触发");
-        console.log(res);
-      })
-    },
+    // getCorrectPaper(index,row){
+    //   const token = cookie.get('jwt')
+    //   axios.get('/wrong/correctPaper/'+row.user_id+'/'+row.testpaper_id_, { headers: { 'Authorization': token } }).then(res => {
+    //     console.log(res);
+    //     this.CorrectPaper = res.data.questions;
+    //     console.log(this.CorrectPaper)
+    //   }).catch(res => {
+    //     console.log("异常触发");
+    //     console.log(res);
+    //   })
+    // },
 
-    handle(row) {
+    gotoTeacherView(id_1, id_2){
+        router.push({ name: 'teacherView', params:{user_id: id_1, testpaper_id_: id_2}});
     },
 
     //每页条数改变时触发 选择一页显示多少行
