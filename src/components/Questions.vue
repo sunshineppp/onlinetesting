@@ -163,8 +163,8 @@ export default {
   methods: {
     //获取试题信息
     getTabelInfo() {
-      // const token = cookie.get('jwt')
-      axios.get('/question').then(res => {
+      const token = cookie.get('jwt')
+      axios.get('/question', {headers: {'Authorization': token}}).then(res => {
         // console.log(res.data);
         this.tableData = res.data;//将后台传递的数组赋值给定义的空数组
         for (let i in this.tableData) {
@@ -178,8 +178,8 @@ export default {
     },
 
     addQuestions() {
-      // const token = cookie.get('jwt')
-      axios.post('/question/create', this.form).then(res => {
+      const token = cookie.get('jwt')
+      axios.post('/question/create', this.form, {headers: {'Authorization': token}}).then(res => {
         alert('添加成功!');
         this.getTabelInfo();
         this.dialogFormVisible = false;
@@ -191,8 +191,8 @@ export default {
 
     //修改试题
     reviseQuestions(id) {
-      // const token = cookie.get('jwt')
-      axios.post('/question/update/' + id, this.form).then(res => {
+      const token = cookie.get('jwt')
+      axios.post('/question/update/' + id, this.form, {headers: {'Authorization': token}}).then(res => {
         alert('修改成功!');
         this.getTabelInfo();
         this.dialogFormVisible = false;
@@ -206,7 +206,7 @@ export default {
     deleteQuestions(id) {
       // const token = cookie.get('jwt')
       console.log(this.id);
-      axios.delete('/question/delete/' + id).then(res => {
+      axios.delete('/question/delete/' + id, {headers: {'Authorization': token}}).then(res => {
         alert('删除成功!');
         this.getTabelInfo();
       }).catch(res => {
