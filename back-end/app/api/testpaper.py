@@ -80,19 +80,19 @@ def createPaper():
    
     created = strftime("%a, %d %b %Y %H:%M:%S", localtime())
 
-    total_point = 0.0
+    # total_point = 0.0
 
-    for question_id in question_ids:
-        question = db.session.query(Question).filter(Question.id == question_id).first()
-        total_point += question.point
+    # for question_id in question_ids:
+    #     question = db.session.query(Question).filter(Question.id == question_id).first()
+    #     total_point += question.point
     
-    passline = round(total_point * 0.6, 2)
+    # passline = round(total_point * 0.6, 2)
 
     testpaper = Testpaper(
         duration = duration,
         name = name,
         created = created,
-        passline = passline
+        # passline = passline
     )
 
     try:
@@ -132,19 +132,19 @@ def modifyPaper(id):
     except Exception as e:
         return e.args
 
-    total_point = 0.0
+    # total_point = 0.0
 
-    for question_id in question_ids:
-        question = db.session.query(Question).filter(Question.id == question_id).first()
-        total_point += question.point
+    # for question_id in question_ids:
+    #     question = db.session.query(Question).filter(Question.id == question_id).first()
+    #     total_point += question.point
     
-    passline = round(total_point * 0.6, 2)
+    # passline = round(total_point * 0.6, 2)
 
     try:
         db.session.query(Testpaper).filter(Testpaper.id == id).update({
             Testpaper.name: name,
             Testpaper.duration: duration,
-            Testpaper.passline: passline
+            # Testpaper.passline: passline
         })
         db.session.query(TestpaperQuestion).filter(TestpaperQuestion.testpaper_id == id).delete()
     except exc.SQLAlchemyError:
