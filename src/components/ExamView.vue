@@ -4,8 +4,8 @@
             <el-tag type="danger">
                 <countdown :time="duration" @end="handleEnd()">
                     <template slot-scope="props">
-                        剩余时间: {{ props.hours }} 小时, 
-                        {{ props.minutes }}分钟, 
+                        剩余时间: {{ props.hours }} 小时,
+                        {{ props.minutes }}分钟,
                         {{ props.seconds }} 秒.
                     </template>
                 </countdown>
@@ -13,29 +13,29 @@
         </el-col>
         <el-col :span="16">
             <el-form :model="form" ref="form" label-position="right">
-        <div v-for="(question, index_q) in testPaper" :key="index_q">
-            <p>{{ question.content }}</p>
-            <div v-show="question.type == 'singleChoice' || question.type == 'trueOrFalse'">
-                <el-form-item :prop="`questions[${index_q}].answer`"
-                    :rules="{ required: true, message: '请选择选项', trigger: 'change' }">
-                    <el-radio-group v-model="form.questions[index_q].answer">
-                        <el-radio v-for="answer in question.answers" :label="answer.id.toString()">{{ answer.content
-                        }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-            </div>
+                <div v-for="(question, index_q) in testPaper" :key="index_q">
+                    <p>{{ question.content }}</p>
+                    <div v-show="question.type == 'singleChoice' || question.type == 'trueOrFalse'">
+                        <el-form-item :prop="`questions[${index_q}].answer`"
+                            :rules="{ required: true, message: '请选择选项', trigger: 'change' }">
+                            <el-radio-group v-model="form.questions[index_q].answer">
+                                <el-radio v-for="answer in question.answers" :label="answer.id.toString()">{{ answer.content
+                                }}</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </div>
 
-            <div v-show="question.type == 'shortAnswer'">
-                <el-form-item :prop="`questions[${index_q}].answer`"
-                    :rules="{ required: true, message: '请填写主观题', trigger: 'blur' }">
-                    <el-input v-model="form.questions[index_q].answer" placeholder="请做答"></el-input>
+                    <div v-show="question.type == 'shortAnswer'">
+                        <el-form-item :prop="`questions[${index_q}].answer`"
+                            :rules="{ required: true, message: '请填写主观题', trigger: 'blur' }">
+                            <el-input v-model="form.questions[index_q].answer" placeholder="请做答"></el-input>
+                        </el-form-item>
+                    </div>
+                </div>
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('form')">交 卷</el-button>
                 </el-form-item>
-            </div>
-        </div>
-        <el-form-item>
-            <el-button type="primary" @click="submitForm('form')">交 卷</el-button>
-        </el-form-item>
-    </el-form>
+            </el-form>
         </el-col>
         <el-col :span="4"></el-col>
     </el-row>
