@@ -1,7 +1,7 @@
 <template>
     <div style="width: 70%; margin: auto; background-color: #fff;">
-        <el-form :model="CorrectPaper" label-position="right" style="text-align: center;">
-            <template v-for="(item, index) in CorrectPaper.questions">
+        <el-form :model="CorrectPaper" ref="CorrectPaper" label-position="right" style="text-align: center;">
+            <div v-for="(item, index) in CorrectPaper.questions" :key="index">
 
                 <!-- 题干 -->
                 <p>{{ item.content }} ({{ item.point }}分)</p>
@@ -13,37 +13,31 @@
                             {{ answer.content }}
                         </el-radio>
                     </el-radio-group>
-
-                    <div>
-                        <el-form-item label="题目得分:">
-                            <el-input-number size="medium" v-model="item.user_exams[0].score" :min="0"
-                                :max="item.point" :disabled="item.type != 'shortAnswer'">
-                            </el-input-number>
-                        </el-form-item>
-                    </div>
                 </div>
 
                 <!-- 主观题 -->
                 <div v-show="item.type == 'shortAnswer'">
                     <el-input v-model="item.user_exams[0].answer" :disabled="true"></el-input>
-
-                    <div>
-                        <el-form-item label="题目得分:">
-                            <el-input-number size="medium" v-model="item.user_exams[0].score" :min="0"
-                                :max="item.point" @change="qs(index)">
-                            </el-input-number>
-                        </el-form-item>
-                    </div>
                 </div>
 
                 <!-- 答案解析 -->
                 <p>解析：{{ item.analysis }}</p>
 
+                <div>
+                    <!-- :prop="questions[index].user_exams[0].score" :rules="[ { required: true, message: '请输入题目得分', trigger: 'blur' }]" -->
+                    <el-form-item label="题目得分:" :prop="`questions[${index}].user_exams[0].score`"
+                        :rules="{ required: true, message: '请输入题目得分', trigger: 'blur' }">
+                        <el-input-number size="medium" v-model="item.user_exams[0].score" :min="0" :max="item.point"
+                            @change="qs(index)" :disabled="item.type != 'shortAnswer'">
+                        </el-input-number>
+                    </el-form-item>
+                </div>
+
                 <!-- 分割线 -->
                 <el-divider></el-divider>
-            </template>
+            </div>
             <el-form-item>
-                <el-button type="primary" @click="">批改完成</el-button>
+                <el-button type="primary" @click="submitForm('CorrectPaper')">批改完成</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -52,6 +46,7 @@
 <script>
 import cookie from 'js-cookie'
 import axios from 'axios'
+import router from '@/router';
 
 export default {
     data() {
@@ -62,30 +57,46 @@ export default {
             form: {
                 questions: []
             },
+            // rules: {
+            //     questions: [
+            //         { required: true, message: '请输入题目得分', trigger: 'blur' }
+            //     ]
+            // }
         }
     },
     methods: {
-        // submitForm() {
-        //     console.log(this.form);
-        //     this.$confirm('确认交卷?', '提示', {
-        //         confirmButtonText: '是',
-        //         cancelButtonText: '否',
-        //         type: 'warning'
-        //     }).then(() => {
-        //         const token = cookie.get('jwt')
-        //         axios.post('/wrong/myExam', this.form, { headers: { 'Authorization': token } })
-        //             .then(() => {
-        //                 this.$router.push({ name: 'exam' })
-        //             })
-        //             .catch(res => {
-        //                 console.log("异常触发");
-        //                 console.log(res); //发生错误时执行的代码
-        //             })
-        //     }).catch(() => {
-        //         alert('已取消交卷!');
-        //     })
-        // }
-        qs(index){
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    let j = 0;
+                    for (let i = 0; i < this.CorrectPaper.questions.length; i++) {
+                        if (this.CorrectPaper.questions[i].type == "shortAnswer") {
+                            this.form.questions[j] = {
+                                question_id: this.CorrectPaper.questions[i].id,
+                                question_score: this.CorrectPaper.questions[i].user_exams[0].score
+                            }
+                            j++;
+                        }
+                    }
+                    console.log(this.form);
+
+                    let user_id = this.$route.params.user_id;
+                    let testpaper_id_ = this.$route.params.testpaper_id_;
+                    const token = cookie.get('jwt')
+                    axios.post('/wrong/correctPaper/' + user_id + '/' + testpaper_id_, this.form, { headers: { 'Authorization': token } }).then(res => {
+                        alert('批改成功！');
+                        router.push({name: 'teacher'});
+                    }).catch(res => {
+                        console.log("异常触发");
+                        console.log(res);
+                    })
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+        },
+        qs(index) {
             console.log(this.CorrectPaper.questions[index].user_exams[0].score);
         }
     },
@@ -100,17 +111,7 @@ export default {
                 this.CorrectPaper.questions = res.data.questions;
                 console.log(this.CorrectPaper);
 
-                // let j = 0;
-                // for (let i = 0; i < this.CorrectPaper.questions.length; i++) {
-                //     if (this.CorrectPaper[i].type == "shortAnswer") {
-                //         this.form.questions[j] = {
-                //             question_id: this.CorrectPaper.questions[i].id,
-                //             question_score: ''
-                //         }
-                //         j++;
-                //     }
-                // }
-                // console.log(this.form);
+
             }).catch(res => {
                 console.log("异常触发");
                 console.log(res);
