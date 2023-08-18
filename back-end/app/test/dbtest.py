@@ -133,7 +133,7 @@ if __name__ == "__main__":
             id = 1,
             duration = str(timedelta(hours=2, minutes=30)),
             name = 'Test 1',
-            passline = 5.4,
+            # passline = 5.4,
             created = strftime("%a, %d %b %Y %H:%M:%S", localtime())
         )
 
@@ -167,7 +167,7 @@ if __name__ == "__main__":
             id = 2,
             duration = str(timedelta(hours=2)),
             name = 'Test 2',
-            passline = 8.4,
+            # passline = 8.4,
             created = strftime("%a, %d %b %Y %H:%M:%S", localtime())
         )
         
@@ -194,7 +194,7 @@ if __name__ == "__main__":
             id = 3,
             duration = str(timedelta(hours=2)),
             name = 'Test 3',
-            passline = 70.0,
+            # passline = 70.0,
             created = strftime("%a, %d %b %Y %H:%M:%S", localtime())
         )
         

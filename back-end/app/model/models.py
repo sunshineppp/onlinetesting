@@ -7,6 +7,8 @@ import time
 from datetime import datetime, timedelta
 import jwt
 from flask import url_for,current_app
+from sqlalchemy.orm import column_property
+from sqlalchemy import select, func
 
 class PaginatedAPIMixin(object):
     @staticmethod
@@ -156,18 +158,6 @@ class Question(db.Model):
     point = db.Column(db.Float, nullable=False)
 
 
-
-class Testpaper(db.Model):
-    __tablename__ = 'testpaper'
-
-    id = db.Column(db.Integer, primary_key=True)
-    duration = db.Column(db.Text, nullable=False)
-    name = db.Column(db.Text, nullable=False)
-    passline = db.Column(db.Float, nullable=False)
-    created = db.Column(db.Text, nullable=False)
-
-
-
 class TestpaperQuestion(db.Model):
     __tablename__ = 'testpaper_question'
 
@@ -177,6 +167,24 @@ class TestpaperQuestion(db.Model):
 
     question = db.relationship('Question', primaryjoin='TestpaperQuestion.question_id == Question.id', backref='testpaper_questions', passive_deletes=True)
     testpaper = db.relationship('Testpaper', primaryjoin='TestpaperQuestion.testpaper_id == Testpaper.id', backref='testpaper_questions', passive_deletes=True)
+
+
+
+class Testpaper(db.Model):
+    __tablename__ = 'testpaper'
+
+    id = db.Column(db.Integer, primary_key=True)
+    duration = db.Column(db.Text, nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    # passline = db.Column(db.Float, nullable=False)
+    created = db.Column(db.Text, nullable=False)
+    passline = column_property(
+            func.round(select(func.sum(Question.point))
+            .join(TestpaperQuestion, TestpaperQuestion.question_id == Question.id)
+            .where(TestpaperQuestion.testpaper_id == id)
+            .scalar_subquery() * 0.6, 2)
+        )
+
 
 
 class UserExam(db.Model):
