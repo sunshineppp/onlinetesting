@@ -65,6 +65,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$router.push({name: 'takeExam', params: {'exam_id': id}})
+        this.$fullscreen.toggle()
       }).catch(() => {
         // alert('已取消删除!');
       });
