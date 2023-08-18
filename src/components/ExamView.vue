@@ -1,27 +1,46 @@
 <template>
-    <el-form :model="form" label-position="right">
-        <template v-for="(question, index_q) in testPaper">
-            <p>{{ question.content }}</p>
-            <div v-show="question.type == 'singleChoice' || question.type == 'trueOrFalse'">
-                <el-radio-group v-model="form.questions[index_q].answer">
-                    <el-radio v-for="answer in question.answers" :label="answer.id.toString()">{{ answer.content
-                    }}</el-radio>
-                </el-radio-group>
-            </div>
+    <el-row :gutter="20">
+        <el-col :span="4">
+            <el-tag type="danger">
+                <countdown :time="duration" @end="handleEnd()">
+                    <template slot-scope="props">
+                        剩余时间: {{ props.hours }} 小时, 
+                        {{ props.minutes }}分钟, 
+                        {{ props.seconds }} 秒.
+                    </template>
+                </countdown>
+            </el-tag>
+        </el-col>
+        <el-col :span="16">
+            <el-form :model="form" label-position="right">
+                <template v-for="(question, index_q) in testPaper">
+                    <p>{{ question.content }}</p>
+                    <div v-show="question.type == 'singleChoice' || question.type == 'trueOrFalse'">
+                        <el-radio-group v-model="form.questions[index_q].answer">
+                            <el-radio v-for="answer in question.answers" :label="answer.id.toString()">{{ answer.content
+                            }}</el-radio>
+                        </el-radio-group>
+                    </div>
 
-            <div v-show="question.type == 'shortAnswer'">
-                <el-input v-model="form.questions[index_q].answer" placeholder="请做答"></el-input>
-            </div>
-        </template>
-        <el-form-item>
-            <el-button type="primary" @click="submitForm">交 卷</el-button>
-        </el-form-item>
-    </el-form>
+                    <div v-show="question.type == 'shortAnswer'">
+                        <el-input v-model="form.questions[index_q].answer" placeholder="请做答"></el-input>
+                    </div>
+                    <el-divider></el-divider>
+                </template>
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm">交 卷</el-button>
+                </el-form-item>
+            </el-form>
+        </el-col>
+        <el-col :span="4"></el-col>
+    </el-row>
 </template>
 
 <script>
 import cookie from 'js-cookie'
 import axios from 'axios'
+
+let time = 'fuck'
 
 export default {
     data() {
@@ -31,6 +50,7 @@ export default {
                 exam_id: '',
                 questions: []
             },
+            duration: 0
         }
     },
     methods: {
@@ -44,7 +64,7 @@ export default {
                 const token = cookie.get('jwt')
                 axios.post('/wrong/myExam', this.form, { headers: { 'Authorization': token } })
                     .then(() => {
-                        this.$router.push({name: 'exam'})
+                        this.$router.push({ name: 'exam' })
                     })
                     .catch(res => {
                         console.log("异常触发");
@@ -53,6 +73,9 @@ export default {
             }).catch(() => {
                 alert('已取消交卷!');
             })
+        },
+        handleEnd() {
+            
         }
     },
     created() {
@@ -64,6 +87,9 @@ export default {
                 // this.tableData = res.data;//将后台传递的数组赋值给定义的空数组
                 this.form.exam_id = res.data.id; //给form表单初始化
                 this.form.questions = []
+
+                let duration = res.data.duration.split(':')
+                this.duration = (+duration[0]) * 60 * 60 * 1000 + (+duration[1]) * 60 * 1000
 
                 for (let i = 0; i < this.testPaper.length; i++) {
                     let question = this.testPaper[i]
