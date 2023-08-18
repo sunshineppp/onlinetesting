@@ -132,14 +132,15 @@ def create_exam():
 
             if type == QuestionType.singleChoice.name or type == QuestionType.trueOrFalse.name:
                 answer = question.get('answer')
-                question_id = question.get('question_id')
-                correct = db.session.query(Answer.correct).filter(Answer.id == int(answer,10))\
-                .filter(Answer.question_id == question_id).first()
-                correct = correct[0]
-                if correct == 1:
-                    userexam.correct = True
-                    score = db.session.query(Question.point).filter(Question.id == question_id).first()
-                    userexam.score = score[0]
+                if answer:
+                    question_id = question.get('question_id')
+                    correct = db.session.query(Answer.correct).filter(Answer.id == int(answer,10))\
+                    .filter(Answer.question_id == question_id).first()
+                    correct = correct[0]
+                    if correct == 1:
+                        userexam.correct = True
+                        score = db.session.query(Question.point).filter(Question.id == question_id).first()
+                        userexam.score = score[0]
                 else:
                     userexam.correct = False
                     userexam.score =  0
@@ -229,7 +230,8 @@ def commitCorrectPaper(student_id,exam_id):
         if 'question_id' not in question or not question.get('question_id', None):
             message['question_id'] = 'Please provide questions_id'
 
-        if 'question_score' not in question or not question.get('question_score', None):
+        # if 'question_score' not in question or not question.get('question_score', None):
+        if 'question_score' not in question:
             message['question_score'] = 'Please provide question_score'
 
         question_id = question['question_id']
