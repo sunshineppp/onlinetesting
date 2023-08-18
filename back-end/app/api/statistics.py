@@ -4,14 +4,16 @@ from app.model.models import UserExam, TestpaperQuestion, Question, Testpaper
 from sqlalchemy.sql import func
 from sqlalchemy import distinct
 from flask import jsonify
+from app.api.auth import token_auth, permission_require
 
 # @bp.route('/user/<int:id>', methods=('GET',))
 # def getUserStatistics():
     # 每场考试得分，总分，通过线，是否通过，答对题目数量/题目总数
     # pass
 
-
+@token_auth.verify_token
 @bp.route('/exam/<int:id>', methods=('GET',))
+@permission_require
 def getExamStatistics(id):
     # 该考试基本信息，总分，通过线，参考人数，通过人数，未批改人数，平均分
     total_points = db.session.query(
@@ -68,6 +70,6 @@ def getExamStatistics(id):
             avg_point = avg_point / len(processed_list)
 
         paper['passNumber'] = pass_number
-        paper['avgPoint'] = avg_point
+        paper['avgPoint'] = round(avg_point, 2)
 
     return jsonify(paper)
