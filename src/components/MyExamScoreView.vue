@@ -42,7 +42,7 @@
                     <el-form-item label="题目得分:" :prop="`questions[${index}].user_exams[0].score`"
                         :rules="{ required: true, message: '请输入题目得分', trigger: 'blur' }">
                         <el-input-number size="medium" v-model="item.user_exams[0].score" :min="0" :max="item.point"
-                            @change="qs(index)" :disabled=true>
+                             :disabled=true>
                         </el-input-number>
                     </el-form-item>
                 </div>
@@ -51,7 +51,7 @@
                 <el-divider></el-divider>
             </div>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('CorrectPaper')">返回</el-button>
+                <el-button type="primary" @click="open">返回</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -79,39 +79,8 @@ export default {
         }
     },
     methods: {
-        submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    let j = 0;
-                    for (let i = 0; i < this.CorrectPaper.questions.length; i++) {
-                        if (this.CorrectPaper.questions[i].type == "shortAnswer") {
-                            this.form.questions[j] = {
-                                question_id: this.CorrectPaper.questions[i].id,
-                                question_score: this.CorrectPaper.questions[i].user_exams[0].score
-                            }
-                            j++;
-                        }
-                    }
-                    console.log(this.form);
-
-                    let user_id = this.$route.params.user_id;
-                    let testpaper_id_ = this.$route.params.testpaper_id_;
-                    const token = cookie.get('jwt')
-                    axios.post('/wrong/correctPaper/' + user_id + '/' + testpaper_id_, this.form, { headers: { 'Authorization': token } }).then(res => {
-                        alert('批改成功！');
-                        router.push({ name: 'teacher' });
-                    }).catch(res => {
-                        console.log("异常触发");
-                        console.log(res);
-                    })
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-            });
-        },
-        qs(index) {
-            console.log(this.CorrectPaper.questions[index].user_exams[0].score);
+        open(){
+            this.$router.push({path:'/user/myExamScore'});
         }
     },
     created() {
