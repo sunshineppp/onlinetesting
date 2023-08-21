@@ -115,7 +115,12 @@ export default {
     const token = cookie.get('jwt')
     axios.get('/paper/', { headers: { 'Authorization': token } })
       .then((response) => {
-        this.tableData = response.data
+        let tableData = response.data
+        for (let exam of tableData) {
+          let date = new Date(Date.parse(exam.created))
+          exam.created = `${date.getUTCFullYear()} 年 ${date.getUTCMonth() + 1} 月 ${date.getUTCDate()} 日`
+        } 
+        this.tableData = tableData
       }).catch((error) => {
         console.log(error)
       })

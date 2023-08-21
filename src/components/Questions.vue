@@ -111,6 +111,12 @@
 <script>
 import axios from 'axios'
 import cookie from 'js-cookie'
+import { mapActions } from 'vuex'
+
+const questionLevelMap = new Map()
+questionLevelMap.set('easy', '简单')
+questionLevelMap.set('medium', '中等')
+questionLevelMap.set('hard', '困难')
 
 export default {
   name: 'questions',
@@ -170,6 +176,7 @@ export default {
         this.tableData = res.data;//将后台传递的数组赋值给定义的空数组
         for (let i in this.tableData) {
           this.tableData[i].type_2 = this.typeName(this.tableData[i].type);
+          this.tableData[i].level = questionLevelMap.get(this.tableData[i].level)
         }
         // console.log(this.tableData)//检查一下数组内是否有数据
       }).catch(res => {
