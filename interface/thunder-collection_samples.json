@@ -1,0 +1,370 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "samples",
+    "dateExported": "2023-08-21T08:44:23.125Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "be78e71e-a9ce-4474-8ed4-366ccf794598",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q1",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-08-21T08:31:51.184Z",
+            "modified": "2023-08-21T08:31:51.184Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"传输层通过端口号提供应用进程间的逻辑通信，即端到端的通信。数据链路层负责相邻结点之间的通信，这个节点包括了交换机和路由器等数据通信设备。网络层负责主机到主机之间的逻辑通信。因此答案为B\",\n  \"answers\": [\n    {\n      \"content\": \"A. 数据链路层\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B. 传输层\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"C. 会话层\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"D. 应用层\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"在OSI参考模型中，自下而上第一个提供端到端服务的层次是\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "0a2e915e-e6b2-4f33-b011-61df2a97d9f0",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q2",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-08-21T08:33:03.650Z",
+            "modified": "2023-08-21T08:33:03.650Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"集线器是一个多端口的中继器，它工作在物理层。以太网交换机是一个多端口的网桥，它工作在数据链路层。路由器是网络层设备。因此答案为C\",\n  \"answers\": [\n    {\n      \"content\": \"A. 2、2、1\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B. 2、2、2\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"C. 3、2、1\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"D. 3、2、2\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"在OSI参考模型中，路由器、交换机、集线器实现的最高功能层分别是\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "0a5602fd-1045-4882-9dff-be85ef4fb6ac",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q3",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-08-21T08:34:05.054Z",
+            "modified": "2023-08-21T08:34:05.054Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"自下而上第5层为会话层，主要功能是管理和协调不同主机上各种进程之前的通信，即负责建立、管理和终止应用程序之间的会话。\",\n  \"answers\": [\n    {\n      \"content\": \"A. 差错控制\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B. 路由选择\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"C. 会话管理\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"D. 数据表示转换\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"OSI参考模型的第5层（自下而上）完成的主要功能是\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "1af3703e-9813-4d7f-b26f-7b42f2e5756b",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q4",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-08-21T08:35:07.257Z",
+            "modified": "2023-08-21T08:35:07.257Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"TCP/IP模型中传输层相邻的下一层为网际层。TCP/IP的网际层是一种尽力而为的服务，它将分组发往任何网络，并为之独立选择合适的路由，但不保证各个分组有序到达，所以B正确。TCP/IP认为可靠性是端到端的问题（传输层的功能），因此它在网际层仅有无连接、不可靠的通信模式，无法完成结点到结点的流量控制（OSI模型的网络层具有该功能）。端到端报文段传输为传输层功能。对话管理在TCP/IP中属于应用层功能。A、C、D错误。\",\n  \"answers\": [\n    {\n      \"content\": \"A. 对话管理\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B. 路由选择\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"C. 端到端报文段传输\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"D. 结点到结点流量控制\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"在TCP/IP参考模型中，由传输层相邻的下一层实现的主要功能是\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "7ff9f889-25f0-4fef-b1fc-0dba70b50f6c",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q5",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-08-21T08:35:47.999Z",
+            "modified": "2023-08-21T08:35:47.999Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"根据奈奎斯特定理，2WlogV = 24kb/s\",\n  \"answers\": [\n    {\n      \"content\": \"A. 12kb/s\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B. 24kb/s\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"C. 48kb/s\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"D. 96kb/s\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"在无噪声的情况下，若某通信链路的带宽为3kHz, 采用4个相位，每个相位具有4中振幅的QAM调制技术，则该通信链路的最大数据传输速率是\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "7b49724b-5d01-41b5-b438-3afe7f49cdab",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q6",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2023-08-21T08:36:19.995Z",
+            "modified": "2023-08-21T08:36:19.995Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"波特率B与数据传输速率C之间的关系为C=B*logN，N为一个码元所取的离散值个数，此处N=4。\",\n  \"answers\": [\n    {\n      \"content\": \"A. 600Baud\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B. 1200Baud\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"C. 4800Baud\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"D. 9600Baud\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"若某通信链路的数据传输速率为2400b/s，采用4相位调制，则该链路的波特率是\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "155aea88-c6e6-4a92-bb3d-9a849d413179",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q7",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2023-08-21T08:36:56.081Z",
+            "modified": "2023-08-21T08:36:56.081Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"由香农定理可知、信噪比和频率带宽都可限制信道的极限传输速率；信道传输速率实际上就是数据的发送速率，而调制速率会直接限制数据传输速率；信号传播速率是信号在信道上传播的速度，与信道的发送速率无关，因此选D\",\n  \"answers\": [\n    {\n      \"content\": \"A. 信噪比\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B. 频率带宽\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"C. 调制速率\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"D.信号传播速度\",\n      \"correct\": 1\n    }\n  ],\n  \"content\": \"下列因素中，不会影响信道数据传输速率的是\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "fcfac000-8586-4ecb-9316-e469c3d54257",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q8",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 80000,
+            "created": "2023-08-21T08:37:31.002Z",
+            "modified": "2023-08-21T08:37:31.002Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"使用奈奎斯特采样定理计算无噪声情况下的极限数据传输速率，用香农第二定理计算有噪声信道极限数据传输速率。2WlogN >= Wlog(1+S/N)，代入可得N>=32，答案为D\",\n  \"answers\": [\n    {\n      \"content\": \"A. 4\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B. 8\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"C. 16\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"D. 32\",\n      \"correct\": 1\n    }\n  ],\n  \"content\": \"若信道在无噪声情况下的极限传输速率不小于信噪比为30dB条件下的极限数据传输速率，则信号状态数至少是\",\n  \"level\": \"medium\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "8a63753d-cf68-4084-9f39-1f798ae04703",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q9",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 90000,
+            "created": "2023-08-21T08:38:01.870Z",
+            "modified": "2023-08-21T08:38:01.870Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"根据奈奎斯特定理，最大数据传输速率=2W*logV，V = 4。\",\n  \"answers\": [\n    {\n      \"content\": \"A. 200kb/s\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B.400kb/s\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"C. 800kb/s\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"D. 1600kb/s\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"在一条带宽为200kHz的无噪声信道上，若采用4个幅值的ASK调制，则该信道的最大数据传输速率是\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "00f3b4cb-cb1e-479e-b873-e1a92352b3ef",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q10",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 100000,
+            "created": "2023-08-21T08:38:34.424Z",
+            "modified": "2023-08-21T08:38:34.424Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"子程序调用只需要保存程序断点、即该指令的下一条指令的地址；中断调用子程序不仅要保存断点内容，还要保存程序状态字寄存器的内容。在中断处理中，最重要的两个寄存器是PC和PSWR\",\n  \"answers\": [\n    {\n      \"content\": \"A. 程序计数器\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B. 程序状态字寄存器\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"C. 通用数据寄存器\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"D. 通用地址寄存器\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"中断处理和子程序调用都需要压栈以保护现场，中断处理一定会保存而子程序调用不需要保存的是\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c4505491-aa69-4095-b1ba-b770201f018f",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q11",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 110000,
+            "created": "2023-08-21T08:39:08.033Z",
+            "modified": "2023-08-21T08:39:08.033Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"缺页处理和时钟中断都属于中断，在核心态执行；进程调度是操作系统内核进程，在核心态执行；因此答案为A\",\n  \"answers\": [\n    {\n      \"content\": \"A. 命令解释程序\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"B. 缺页处理程序\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"C. 进程调度程序\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"D. 时钟中断处理程序\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"下列选项中，在用户态执行的是\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "79a924cb-411f-448d-a187-61148820b0cf",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q12",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 120000,
+            "created": "2023-08-21T08:39:41.620Z",
+            "modified": "2023-08-21T08:39:41.620Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"系统调用是操作系统提供给用户程序的接口，系统调用发生在用户态，被调用程序在核心态执行。外部中断是用户态到核心态的“门”， 也发生在用户态。进程切换属于系统调用执行过程中的事件，只能发生在核心态。缺页产生后，在用户态发生缺页中断，然后进入核心态执行缺页中断服务程序。\",\n  \"answers\": [\n    {\n      \"content\": \"A. 系统调用\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B. 外部中断\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"C. 进程切换\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"D. 缺页\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"下列选项中，不可能在用户态发生的事件是\",\n  \"level\": \"medium\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "8b16eb4d-ba96-46ea-a64f-2a774a442c2b",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q13",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 130000,
+            "created": "2023-08-21T08:40:09.513Z",
+            "modified": "2023-08-21T08:40:09.513Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"关中断指令为特权指令，必须在核心态执行\",\n  \"answers\": [\n    {\n      \"content\": \"A. trap指令\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B. 跳转指令\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"C. 压栈指令\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"D. 关中断指令\",\n      \"correct\": 1\n    }\n  ],\n  \"content\": \"下列指令中，不能在用户态执行的是\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "b118b9c4-a17d-4422-9f53-0c63bb636679",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q14",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 140000,
+            "created": "2023-08-21T08:41:01.937Z",
+            "modified": "2023-08-21T08:41:01.937Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"虚拟内存缺页属于异常\",\n  \"answers\": [\n    {\n      \"content\": \"A. “访存时缺页”属于中断\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"B. “整数除以0”属于异常\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"C. “DMA传送结束” 属于中断\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"D. “存储保护错”属于异常\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"异常是指令执行过程中在处理器内部发生的特殊事件，中断是来自处理器外部的请求事件。下列关于中断或异常的叙述中，错误的是\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "b94a9286-a7c6-4681-a76d-6dcbc6d415e3",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q15",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 150000,
+            "created": "2023-08-21T08:41:27.191Z",
+            "modified": "2023-08-21T08:41:27.191Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"外部中断处理过程，PC值由中断隐指令自动保存，而通用寄存器内容由操作系统保存\",\n  \"answers\": [\n    {\n      \"content\": \"A. 程序计数器（PC）的内容\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B. 通用寄存器的内容\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"C. 块表（TLB）的内容\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"D. Cache中的内容\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"处理外部中断时，应该由操作系统保存的是\",\n  \"level\": \"medium\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "5382a9f1-0669-475f-abfe-e5165940c3a4",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q16",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 160000,
+            "created": "2023-08-21T08:41:54.212Z",
+            "modified": "2023-08-21T08:41:54.212Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"可能发生缺页异常\",\n  \"answers\": [\n    {\n      \"content\": \"true\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"false\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"将指令MOV RO, addr （把地址addr处的内存数据放入寄存器R0）装入指令寄存器，则该指令执行时可能导致CPU从用户态转变为内核态。\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"trueOrFalse\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "bff3c61f-ce35-4e9a-b65e-2bc6d4dad066",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q17",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 170000,
+            "created": "2023-08-21T08:42:26.070Z",
+            "modified": "2023-08-21T08:42:26.070Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"执行系统调用过程：正在运行的进程先传递系统调用参数，然后由trap指令负责将用户态转换为内核态，接下来执行内核服务程序，最后返回用户态。\",\n  \"answers\": [\n    {\n      \"content\": \"传递系统调用参数，执行trap指令，执行相应的服务程序，返回用户态\",\n      \"correct\": 1\n    }\n  ],\n  \"content\": \"请简单陈述系统调用的执行过程\",\n  \"level\": \"easy\",\n  \"point\": 10.0,\n  \"type\": \"shortAnswer\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "89dfbd6f-32cc-4141-93e5-7a1d28156572",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q18",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 180000,
+            "created": "2023-08-21T08:42:54.735Z",
+            "modified": "2023-08-21T08:42:54.735Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"时钟中断的主要工作是处理和时间有关的信息以及决定是否执行调度程序。和时间有关的所有信息包括系统时间、进程时间片、延时、使用CPU的时间、各种定时器。因此I、II、III均正确\",\n  \"answers\": [\n    {\n      \"content\": \"A.  仅I、II\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B.仅II、III\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"C. 仅I、III\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"D. I、II、III\",\n      \"correct\": 1\n    }\n  ],\n  \"content\": \"定时器产生时钟中断后，由时钟中断服务程序更新的内容是（）。I. 内核中时钟变量的值; II. 当前进程占用CPU的时间；III. 当前进程在时间片内的剩余执行时间\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "090188da-2edf-47f0-9403-a189ca55e3a2",
+            "colId": "eb765af8-4c49-4ea9-83ae-3e88510990b6",
+            "containerId": "",
+            "name": "q19",
+            "url": "http://localhost:5000/question/create",
+            "method": "POST",
+            "sortNum": 190000,
+            "created": "2023-08-21T08:43:41.316Z",
+            "modified": "2023-08-21T08:43:41.316Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"analysis\": \"不同操作系统为应用程序提供的系统调用接口并不相同\",\n  \"answers\": [\n    {\n      \"content\": \"A. 仅I、IV\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"B. 仅II、III\",\n      \"correct\": 0\n    },\n    {\n      \"content\": \"C. 仅I、II、IV\",\n      \"correct\": 1\n    },\n    {\n      \"content\": \"D. 仅I、III、IV\",\n      \"correct\": 0\n    }\n  ],\n  \"content\": \"下列关于系统调用的叙述中，正确的是()。I. 在执行系统调用服务程序过程中，CPU处于内核态。II. 操作系统通过提供系统调用避免用户程序直接访问外设。III. 不同操作系统为应用程序提供了统一的系统调用接口。IV. 系统调用是操作系统内核为应用程序提供服务的接口\",\n  \"level\": \"easy\",\n  \"point\": 5.0,\n  \"type\": \"singleChoice\"\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
