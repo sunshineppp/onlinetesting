@@ -11,10 +11,7 @@ from app.api.auth import token_auth, permission_require
     # 每场考试得分，总分，通过线，是否通过，答对题目数量/题目总数
     # pass
 
-@token_auth.verify_token
-@bp.route('/exam/<int:id>', methods=('GET',))
-@permission_require
-def getExamStatistics(id):
+def statisticsUtil(id):
     # 该考试基本信息，总分，通过线，参考人数，通过人数，未批改人数，平均分
     total_points = db.session.query(
             func.sum(Question.point)
@@ -22,7 +19,7 @@ def getExamStatistics(id):
             TestpaperQuestion, Question.id == TestpaperQuestion.question_id
         ).filter(TestpaperQuestion.testpaper_id == id).first()
     if total_points is None:
-        return 'Testpaper not found', 404
+        raise Exception('Testpaper not found', 404)
     
     paper = db.session.query(Testpaper).with_entities(
         Testpaper.id,
@@ -33,7 +30,7 @@ def getExamStatistics(id):
     ).filter(Testpaper.id == id).first()
     
     if paper is None:
-        return 'Testpaper not found', 404
+        raise Exception('Testpaper not found', 404)
     
     paper = dict(paper._mapping)
 
@@ -72,4 +69,30 @@ def getExamStatistics(id):
         paper['passNumber'] = pass_number
         paper['avgPoint'] = round(avg_point, 2)
 
-    return jsonify(paper)
+    return paper
+
+@token_auth.verify_token
+@bp.route('/exam/<int:id>', methods=('GET',))
+@permission_require
+def getExamStatistics(id):
+    try:
+        paper = statisticsUtil(id)
+    except Exception as e:
+        return e.args
+    else:
+        return jsonify(paper)
+
+@token_auth.verify_token
+@bp.route('/exam', methods=('GET',))
+@permission_require
+def getAllExamStatistics():
+    exam_ids = db.session.query(Testpaper.id).all()
+    papers = []
+    for id in exam_ids:
+        try:
+            paper = statisticsUtil(id[0])
+        except Exception as e:
+            return e.args
+        else:
+            papers.append(paper)
+    return jsonify(papers)
