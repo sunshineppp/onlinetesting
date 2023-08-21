@@ -135,12 +135,17 @@ def create_exam():
                 if answer:
                     question_id = question.get('question_id')
                     correct = db.session.query(Answer.correct).filter(Answer.id == int(answer,10))\
-                    .filter(Answer.question_id == question_id).first()
+                                .filter(Answer.question_id == question_id).first()
+                    if correct is None:
+                        return bad_response('No Answer')
                     correct = correct[0]
                     if correct == 1:
                         userexam.correct = True
                         score = db.session.query(Question.point).filter(Question.id == question_id).first()
                         userexam.score = score[0]
+                    else:
+                        userexam.correct = False
+                        userexam.score =  0
                 else:
                     userexam.correct = False
                     userexam.score =  0
