@@ -19,7 +19,7 @@
       </el-table-column>
       <el-table-column prop="duration" label="考试时长" width="120">
       </el-table-column>
-      <el-table-column prop="passline" label="及格分数线" width="150">
+      <el-table-column prop="passline" label="合格分数" width="150">
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="250">
         <template slot-scope="scope">

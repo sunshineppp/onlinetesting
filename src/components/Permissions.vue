@@ -47,14 +47,15 @@
       <el-table :data="tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)" style="
           width: 100%;
           margin: auto;
-          margin-top: 10px;" max-height="500" @row-click="handle">
+          margin-top: 10px;" max-height="500" @row-click="handle
+            ">
 
         <!--
       <el-table-column fixed prop="id" label="序列" width="50">
       </el-table-column>
       -->
 
-        <el-table-column fixed prop="account" label="用户名" width="120">
+        <el-table-column fixed prop="account" label="用户名" width="150">
         </el-table-column>
         <el-table-column prop="permission_id" label="权限等级" width="150">
         </el-table-column>
@@ -99,6 +100,11 @@ export default {
       dialogFormVisible: false, //对话框
       visible: false, //弹出框
 
+      formLabelWidth: '120px',
+      tableData: [],
+      currentPage: 1, // 当前页码
+      pageSize: 5, // 每页的数据数条
+
       form: {
         account: '',
         password: '',
@@ -124,15 +130,10 @@ export default {
           { required: true, message: '请选择权限等级', trigger: 'change' }
         ]
       },
-
-      formLabelWidth: '120px',
-      tableData: [],
-      currentPage: 1, // 当前页码
-      pageSize: 5 // 每页的数据条数
     }
   },
   methods: {
-    
+
     //判别权限名称
     permissionsName(id) {
       switch (id) {
@@ -192,6 +193,7 @@ export default {
       console.log(this.id);
       axios.delete('/api/users/' + id, { headers: { 'Authorization': token } }).then(res => {
         alert('删除成功!');
+        this.currentPage = 1;
         this.getTabelInfo();
       }).catch(res => {
         console.log("异常触发");
