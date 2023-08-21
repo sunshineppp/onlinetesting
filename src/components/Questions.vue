@@ -84,6 +84,7 @@
       <el-table-column prop="type_2" label="题型" width="100">
       </el-table-column>
       <el-table-column prop="level" label="难度" width="100">
+        <template slot-scope="scope">{{ mapLevel(scope.row.level) }}</template>
       </el-table-column>
       <el-table-column prop="point" label="分值" width="100">
       </el-table-column>
@@ -176,7 +177,7 @@ export default {
         this.tableData = res.data;//将后台传递的数组赋值给定义的空数组
         for (let i in this.tableData) {
           this.tableData[i].type_2 = this.typeName(this.tableData[i].type);
-          this.tableData[i].level = questionLevelMap.get(this.tableData[i].level)
+          // this.tableData[i].level = questionLevelMap.get(this.tableData[i].level)
           for(let j=0;j<this.tableData[i].answers.length;j++){
             if(this.tableData[i].answers[j].correct == 1){
               this.tableData[i].radio = j+1;
@@ -317,6 +318,10 @@ export default {
         case ("trueOrFalse"): return "判断题"; break;
         case ("shortAnswer"): return "主观题"; break;
       }
+    },
+
+    mapLevel(level) {
+      return questionLevelMap.get(level)
     },
   },
   mounted() {
