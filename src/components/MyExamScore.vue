@@ -78,6 +78,10 @@ export default {
                     this.tableData[i].score = '无';
                 }
             }
+            for (let exam of this.tableData) {
+                let date = new Date(Date.parse(exam.exam_time))
+                exam.exam_time = `${date.getUTCFullYear()} 年 ${date.getUTCMonth() + 1} 月 ${date.getUTCDate()} 日`
+            }
         }).catch(res => {
             console.log("触发异常");
             console.log(res);

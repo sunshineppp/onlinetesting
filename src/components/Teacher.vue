@@ -61,6 +61,10 @@ export default {
         // console.log(res);
         this.tableData = res.data.paper;//将后台传递的数组赋值给定义的空数组
         // console.log(this.tableData)// 检查一下数组内是否有数据
+        for (let exam of this.tableData) {
+          let date = new Date(Date.parse(exam.exam_time))
+          exam.exam_time = `${date.getUTCFullYear()} 年 ${date.getUTCMonth() + 1} 月 ${date.getUTCDate()} 日`
+        } 
       }).catch(res => {
         console.log("异常触发");
         console.log(res);
