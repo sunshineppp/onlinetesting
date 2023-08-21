@@ -1,7 +1,7 @@
 <template>
   <div class="HomeView container">
     <div class="login-wrapper">
-      <div class="header">Login</div>
+      <div class="header">登 录</div>
       <div class="form-wrapper">
         <input type="text" name="username" placeholder="username" class="input-item" v-model="username">
         <input type="password" name="password" placeholder="password" class="input-item" v-model="password"
@@ -9,8 +9,8 @@
         <div class="btn" @click="login()">Login</div>
       </div>
       <div class="msg">
-        Don't have account?
-        <a @click="dialogFormVisible = true" style="cursor: pointer;">Sign up</a>
+        没有账号?
+        <a @click="dialogFormVisible = true" style="cursor: pointer;">注 册</a>
 
         <!-- 注册表单 -->
         <el-dialog title="注册" :visible.sync="dialogFormVisible" append-to-body>
