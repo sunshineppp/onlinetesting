@@ -29,21 +29,21 @@
         </template> -->
 
         <template v-for="(item, index) in form.answers">
-          <el-form-item label="选项" prop="item" v-show="form.type == 'singleChoice'">
+          <el-form-item label="选项" :prop="`answers[${index}].content`" v-show="form.type == 'singleChoice'">
             <el-input v-model="form.answers[index].content" autocomplete="off" placeholder="answer"></el-input>
           </el-form-item>
         </template>
 
         <el-form-item label="答案：" prop="radio" v-if="form.type != 'shortAnswer'">
           <el-radio-group v-model="form.radio" v-show="form.type == 'singleChoice'">
-            <el-radio :label=0>A</el-radio>
-            <el-radio :label=1>B</el-radio>
-            <el-radio :label=2>C</el-radio>
-            <el-radio :label=3>D</el-radio>
+            <el-radio :label=1>A</el-radio>
+            <el-radio :label=2>B</el-radio>
+            <el-radio :label=3>C</el-radio>
+            <el-radio :label=4>D</el-radio>
           </el-radio-group>
           <el-radio-group v-model="form.radio" v-show="form.type == 'trueOrFalse'">
-            <el-radio :label=0>true</el-radio>
-            <el-radio :label=1>false</el-radio>
+            <el-radio :label=1>true</el-radio>
+            <el-radio :label=2>false</el-radio>
           </el-radio-group>
         </el-form-item>
 
@@ -177,6 +177,11 @@ export default {
         for (let i in this.tableData) {
           this.tableData[i].type_2 = this.typeName(this.tableData[i].type);
           this.tableData[i].level = questionLevelMap.get(this.tableData[i].level)
+          for(let j=0;j<this.tableData[i].answers.length;j++){
+            if(this.tableData[i].answers[j].correct == 1){
+              this.tableData[i].radio = j+1;
+            }
+          }
         }
         // console.log(this.tableData)//检查一下数组内是否有数据
       }).catch(res => {
@@ -227,7 +232,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log(this.form);
+          // console.log(this.form);
           if (this.type == "Add") {
             console.log("Add");
             this.addQuestions();
@@ -252,9 +257,10 @@ export default {
 
     //点击添加按钮清空form
     resetForm2() {
-      this.form.analysis = this.form.answers = this.form.content = this.form.id = this.form.level = this.form.point = this.form.type = '';
+      this.form.analysis = this.form.answers = this.form.content = this.form.id = this.form.level = this.form.point = this.form.type = this.form.radio = '';
       this.dialogFormVisible = true;
       this.type = 'Add';
+      console.log(this.form);
     },
 
     handle(row) {
@@ -267,15 +273,11 @@ export default {
       this.form.level = row.level;
       this.form.point = row.point;
       this.form.type = row.type;
+      this.form.radio = row.radio;
       // this.form = row;
-      // console.log(this.form.answers);
+      console.log(this.form.answers);
       // console.log(this.form.answers[0].content)
 
-    },
-
-    Add() {
-      this.type = "Add";
-      this.dialogFormVisible = true;
     },
 
     Revise() {
@@ -331,22 +333,22 @@ export default {
         this.form.answers = [
           {
             "content": 'A.',
-            "correct": 0,
+            "correct": '',
             "id": ''
           },
           {
             "content": 'B.',
-            "correct": 0,
+            "correct": '',
             "id": ''
           },
           {
             "content": 'C.',
-            "correct": 0,
+            "correct": '',
             "id": ''
           },
           {
             "content": 'D.',
-            "correct": 0,
+            "correct": '',
             "id": ''
           },
         ]
@@ -354,12 +356,12 @@ export default {
         this.form.answers = [
           {
             "content": 'true',
-            "correct": 0,
+            "correct": '',
             "id": ''
           },
           {
             "content": 'false',
-            "correct": 0,
+            "correct": '',
             "id": ''
           }
         ]
@@ -373,9 +375,13 @@ export default {
         ]
       }
     },
-    radio(newQuestion, oldQuestion) {
+    "form.radio"(newQuestion, oldQuestion) {
       if (this.form.radio != '') {
-        this.form.answers[this.form.radio].correct = 1;
+        // console.log("ok");
+        for(let i = 0;i<this.form.answers.length;i++){
+          this.form.answers[i].correct = 0;
+        }
+        this.form.answers[(this.form.radio)-1].correct = 1;
       }
     },
   },
