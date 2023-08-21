@@ -2,7 +2,7 @@
     <el-row :gutter="20">
         <el-col :span="4">
             <el-tag type="danger">
-                <countdown :time="duration" @end="handleEnd()">
+                <countdown :time="duration" @progress="handleProgress">
                     <template slot-scope="props">
                         剩余时间: {{ props.hours }} 小时,
                         {{ props.minutes }}分钟,
@@ -45,8 +45,6 @@
 import cookie from 'js-cookie'
 import axios from 'axios'
 
-let time = 'fuck'
-
 export default {
     data() {
         return {
@@ -55,39 +53,48 @@ export default {
                 exam_id: '',
                 questions: []
             },
-            duration: 0
+            duration: 0,
         }
     },
     methods: {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    console.log(this.form);
+                    console.log('fuck1')
                     this.$confirm('确认交卷?', '提示', {
                         confirmButtonText: '是',
                         cancelButtonText: '否',
                         type: 'warning'
                     }).then(() => {
-                        const token = cookie.get('jwt')
-                        axios.post('/wrong/myExam', this.form, { headers: { 'Authorization': token } })
-                            .then(() => {
-                                this.$router.push({ name: 'exam' })
-                            })
-                            .catch(res => {
-                                console.log("异常触发");
-                                console.log(res); //发生错误时执行的代码
-                            })
+                        this.postPaper()
                     }).catch(() => {
                         alert('已取消交卷!');
                     })
-                } else {
+                }
+                else {
                     console.log('error submit!!');
                     return false;
                 }
             });
-
-
+        },
+        handleProgress(data) {
+            if (data.totalSeconds == 1) {
+                this.postPaper()
+            }
+        },
+        postPaper() {
+            const token = cookie.get('jwt')
+            axios.post('/wrong/myExam', this.form, { headers: { 'Authorization': token } })
+                .then(() => {
+                    this.$router.push({ name: 'exam' })
+                    this.$fullscreen.exit()
+                })
+                .catch(res => {
+                    console.log("异常触发");
+                    console.log(res); //发生错误时执行的代码
+                })
         }
+
     },
     created() {
         let exam_id = this.$route.params.exam_id
