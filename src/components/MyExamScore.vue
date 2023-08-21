@@ -20,8 +20,7 @@
             </el-table-column>
             <el-table-column fixed="right" prop="" label="操作" width="100">
                 <template slot-scope="scope">
-                    <el-button type="primary" size="medium"
-                        @click="View(scope.row.exam_id)">
+                    <el-button type="primary" size="medium" @click="View(scope.row.exam_id)">
                         查看
                     </el-button>
                 </template>
@@ -54,7 +53,7 @@ export default {
     },
     methods: {
         View(id) {
-            router.push({name: 'myExamScoreView', params:{exam_id: id}});
+            router.push({ name: 'myExamScoreView', params: { exam_id: id } });
         },
 
         //每页条数改变时触发 选择一页显示多少行
@@ -67,13 +66,18 @@ export default {
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
             this.currentPage = val;
-        }    
+        }
     },
     created() {
         const token = cookie.get('jwt')
         axios.get('/wrong/myExamScore', { headers: { 'Authorization': token } }).then(res => {
             console.log(res.data);
             this.tableData = res.data;
+            for (let i = 0; i < this.tableData.length; i++) {
+                if (this.tableData[i].score == -1) {
+                    this.tableData[i].score = '无';
+                }
+            }
         }).catch(res => {
             console.log("触发异常");
             console.log(res);
