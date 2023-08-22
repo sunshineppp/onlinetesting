@@ -29,12 +29,14 @@
 
     <el-container>
       <el-header>
-        <span><i class="el-icon-user"></i>{{ account }}</span>
-        <!-- <el-button><i clsas="el-icon-switch-button"></i>退出</el-button> -->
-        <el-dropdown @command="gotoHome" style="margin-left: 20px;">
-          <i class="el-icon-more" style="margin-right: 15px"></i>
+        <el-dropdown @command="gotoHome" trigger="click" style="margin-right: 15px;">
+          <span class="el-dropdown-link">
+            <i class="el-icon-user"></i>
+            {{ account }}
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item><i clsas="el-icon-switch-button"></i>退出</el-dropdown-item>
+            <el-dropdown-item><i class="el-icon-switch-button"></i>退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
