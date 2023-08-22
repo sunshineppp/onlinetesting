@@ -43,20 +43,20 @@ if __name__ == "__main__":
 
         user = User(
             id = 1,
-            account = 'zwt',
-            password = 'pbkdf2:sha256:600000$UAv1BWz0LibA6cpA$7f658dc8f34dd2db4759be70ea92e05f49e4fdbe24680d7aaaabe69859872253',
+            account = 'admin',
+            password = 'pbkdf2:sha256:600000$xP1yP8X4eNNMSJXx$1fcc68d4f609e71be2d991dc38a81f116b78850a2a98714fda65f534937aa1b0',
             permission_id = '3',
-            email = 'zwt@qq.com'
+            email = 'admin@scut.edu.cn'
         )
         db.session.add(user)
         db.session.commit()
 
         user = User(
             id = 2,
-            account = 'zwt1',
-            password = 'pbkdf2:sha256:600000$UAv1BWz0LibA6cpA$7f658dc8f34dd2db4759be70ea92e05f49e4fdbe24680d7aaaabe69859872253',
+            account = 'TA',
+            password = 'pbkdf2:sha256:600000$xP1yP8X4eNNMSJXx$1fcc68d4f609e71be2d991dc38a81f116b78850a2a98714fda65f534937aa1b0',
             permission_id = '2',
-            email = 'zwt1@qq.com'
+            email = 'TA@scut.edu.cn'
         )
         db.session.add(user)
         db.session.commit()

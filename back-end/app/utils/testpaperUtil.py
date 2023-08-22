@@ -117,7 +117,7 @@ def teacherGetPaperUtil(id,user_id):
                         user_exam['answer_content'] = answer_content[0]
                     else:
                         user_exam['answer_content'] = ''
-            print(user_exams)
+            
             question['user_exams'] = user_exams
         
         paper['questions'] = questions

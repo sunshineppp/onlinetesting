@@ -33,23 +33,23 @@ def wrong():
         .group_by(UserExam.testpaper_id).all() #.filter(UserExam.correct == 1)
     if userexams is None:
         return 'no exam',208
-    # print(userexams)
+    # 
     all_exam=[]
     for userexam in userexams:
         exam_time = db.session.query(UserExam.exam_time).filter(UserExam.user_id==g.user_id)\
             .filter(UserExam.testpaper_id== userexam[0]).first()
-        # print(exam_time)
+        # 
         questions = db.session.query(TestpaperQuestion.question_id)\
             .filter(TestpaperQuestion.testpaper_id==userexam[0]).all()
         qs=[]#试卷题集合
         for question in questions:
             qs.append(question[0])
         exam = db.session.query(Testpaper.name,Testpaper.passline).filter(Testpaper.id == userexam[0]).first()
-        # print(exam) #试卷名，试卷及格分
+        #  #试卷名，试卷及格分
         # exam_score = db.session.query(func.sum(Question.point)).filter(Question.id.in_(qs)).all()
         # exam_score = exam_score[0][0]
         exam_score = get_exam_total(qs)
-        # print(exam_score)#试卷总分
+        # #试卷总分
 
         #是否完成批改
         user_exam = db.session.query(UserExam).filter(UserExam.user_id == g.user_id)\
@@ -57,7 +57,7 @@ def wrong():
         if user_exam is None:
             get_score = db.session.query(func.sum(UserExam.score)).filter(UserExam.user_id==g.user_id)\
                 .filter(UserExam.testpaper_id == userexam[0]).all()
-            # print(get_score)
+            # 
             score = get_score[0][0]
         else:
             score = -1
@@ -78,7 +78,7 @@ def wrong():
             'pass_or_not':pass_or_not,
             'exam_time':exam_time[0]
         }
-        print(data)
+        
         all_exam.append(data)
 
     return jsonify(all_exam)
@@ -149,10 +149,10 @@ def create_exam():
                 else:
                     userexam.correct = False
                     userexam.score =  0
-            # print(userexam.to_dict())
+            # 
             db.session.add(userexam)
         except Exception as e:
-            print(e)
+            
             return bad_response('System maintenance')
         
     db.session.commit()
@@ -170,7 +170,7 @@ def get_paper():
 
     testpapers = db.session.query(UserExam.testpaper_id,UserExam.user_id,UserExam.exam_time)\
         .filter(UserExam.correct == None).group_by(UserExam.testpaper_id,UserExam.user_id).all()
-    print(testpapers)
+    
 
     if testpapers is None:
         return '没有可批改的试卷',208
@@ -184,7 +184,7 @@ def get_paper():
 
             #试卷名，试卷及格分
             exam = db.session.query(Testpaper.name,Testpaper.passline).filter(Testpaper.id == testpaper[0]).first()
-            print(exam)
+            
             #试卷总分
             exam_score = get_exam_total(qs)
             #答题人
@@ -201,7 +201,7 @@ def get_paper():
             paper.append(data)
         papers['paper'] = paper
     except Exception as e:
-        print(e)
+        
         return bad_response('正在维护')
     
     return jsonify(papers)
@@ -213,7 +213,7 @@ def correctPaper(student_id,exam_id):
     try:
         paper = testpaperUtil.teacherGetPaperUtil(exam_id,student_id)
     except Exception as e:
-        print(e)
+        
         return bad_response('正在维护')
 
     return jsonify(paper)
@@ -241,8 +241,8 @@ def commitCorrectPaper(student_id,exam_id):
 
         question_id = question['question_id']
         type  = db.session.query(Question.type).filter(Question.id == question_id).first()
-        # print(type[0].name)
-        # print(QuestionType.shortAnswer.name)
+        # 
+        # 
         if type[0].name != QuestionType.shortAnswer.name:
             message["question_type"] = 'Question can not  correct'
 
@@ -265,7 +265,7 @@ def commitCorrectPaper(student_id,exam_id):
             user_exam.score = question['question_score']
             db.session.commit()
         except Exception as e:
-            print(e)
+            
             db.session.rollback()
             return bad_response('正在维护')
 
@@ -297,12 +297,12 @@ def myExams():
     try:
         # a=1/0
         testpapers = db.session.query(Testpaper.id,Testpaper.name,Testpaper.passline,Testpaper.duration).all()
-        print(testpapers)
+        
         for testpaper in testpapers:
-            # print(testpaper[0])
+            # 
             user_exam = db.session.query(UserExam).filter(UserExam.user_id == g.user_id)\
                 .filter(UserExam.testpaper_id == testpaper[0]).first()
-            print(user_exam)
+            
             if user_exam:
                 continue
 

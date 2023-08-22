@@ -13,7 +13,7 @@ token_auth = HTTPTokenAuth()
 @basic_auth.verify_password
 def verify_password(account, password):
     '''用于检查用户提供的用户名和密码'''
-    print(account,password)
+    
     user = User.query.filter_by(account=account).first()
     if user is None:
         return False
@@ -42,15 +42,15 @@ def permission_require(func):
         permission = payload.get('permission_id')
         # permission = data['login_permission_id']
         # # 如果权限不够 返回错误信息
-        # print(permission)
+        # 
         if permission == 3:
-            # print(111111111111)
+            # 
             g.user_id = payload.get('user_id')
             return func(**kwargs)
         else:
             message={}
             message['login_permission_require'] = 'NO PERMISSION'
-            # print(22222222222222222)
+            # 
             return bad_request(message)
     return inner
 
@@ -70,15 +70,15 @@ def permission_require_student(func):
         permission = payload.get('permission_id')
         # permission = data['login_permission_id']
         # # 如果权限不够 返回错误信息
-        # print(permission)
+        # 
         if permission >= 1:
-            # print(111111111111)
+            # 
             g.user_id = payload.get('user_id')
             return func(**kwargs)
         else:
             message={}
             message['login_permission_require'] = 'NO PERMISSION'
-            # print(22222222222222222)
+            # 
             return bad_request(message)
     return inner
 
@@ -97,15 +97,15 @@ def permission_require_teacher(func):
         permission = payload.get('permission_id')
         # permission = data['login_permission_id']
         # # 如果权限不够 返回错误信息
-        # print(permission)
+        # 
         if permission >= 2:
-            # print(111111111111)
+            # 
             g.user_id = payload.get('user_id')
             return func(**kwargs)
         else:
             message={}
             message['login_permission_require'] = 'NO PERMISSION'
-            # print(22222222222222222)
+            # 
             return bad_request(message)
     return inner
 
