@@ -57,19 +57,23 @@ export default {
     data() {
         return {
             dialogVisible: false,
-            notProcessed: '3',
-            passNumber: '3',
-            totalNumber: '10',
+            notProcessed: '', //未批改人数
+            passNumber: '', //合格人数
+            totalNumber: '', //考试总人数
             tableData: [],
             currentPage: 1, // 当前页码
             pageSize: 5, // 每页的数据数条
+            option1:
+            {
+
+            }
         }
     },
     methods: {
         click(notProcessed, passNumber, totalNumber) {
-            // this.notProcessed = notProcessed;
-            // this.passNumber = passNumber;
-            // this.totalNumber = totalNumber;
+            this.notProcessed = notProcessed;
+            this.passNumber = passNumber;
+            this.totalNumber = totalNumber;
             this.dialogVisible = true;
         },
         open() {
@@ -79,13 +83,24 @@ export default {
         },
         drawLine(notProcessed, passNumber, totalNumber) {
             let EChart = this.$echarts.init(this.$refs.EChart);
-            let option =
+            let option2 =
             {
+                legend: {
+                    data: ["未批改人数", "合格人数", "不合格人数"],
+                    right: "10%",
+                    top: "30%",
+                    orient: "vertical"
+                },
+                title: {
+                    text: "考试情况",
+                    top: "0%",
+                    left: "center",
+                },
                 series: [
                     {
                         type: 'pie',
                         stillShowZeroSum: false,
-                        label:{
+                        label: {
                             show: false
                         },
                         data: [
@@ -105,7 +120,7 @@ export default {
                     }
                 ]
             };
-            EChart.setOption(option);
+            EChart.setOption(option2);
         },
 
         //每页条数改变时触发 选择一页显示多少行
