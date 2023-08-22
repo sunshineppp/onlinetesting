@@ -1,5 +1,9 @@
 <template>
     <div class="statistics">
+        <el-dialog title="View" :visible.sync="dialogVisible" @open="open()" append-to-body>
+            <div ref="EChart" style="width: 550px; height: 300px;"></div>
+        </el-dialog>
+
         <el-table :data="tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)" style="
                 width: 100%;
                 margin: auto;
@@ -27,8 +31,8 @@
             <el-table-column fixed="right" prop="" label="操作" width="100">
                 <template slot-scope="scope">
                     <el-button type="primary" size="medium"
-                        @click="">
-                        查看详情
+                        @click="click(scope.row.notProcessed, scope.row.passNumber, scope.row.totalNumber)">
+                        查看
                     </el-button>
                 </template>
             </el-table-column>
@@ -52,13 +56,56 @@ export default {
     name: 'statistics',
     data() {
         return {
+            dialogVisible: false,
+            notProcessed: '3',
+            passNumber: '3',
+            totalNumber: '10',
             tableData: [],
             currentPage: 1, // 当前页码
             pageSize: 5, // 每页的数据数条
         }
     },
     methods: {
-        getTabelInfo(id) {
+        click(notProcessed, passNumber, totalNumber) {
+            // this.notProcessed = notProcessed;
+            // this.passNumber = passNumber;
+            // this.totalNumber = totalNumber;
+            this.dialogVisible = true;
+        },
+        open() {
+            setTimeout(() => {
+                this.drawLine(this.notProcessed, this.passNumber, this.totalNumber);
+            }, 0);
+        },
+        drawLine(notProcessed, passNumber, totalNumber) {
+            let EChart = this.$echarts.init(this.$refs.EChart);
+            let option =
+            {
+                series: [
+                    {
+                        type: 'pie',
+                        stillShowZeroSum: false,
+                        label:{
+                            show: false
+                        },
+                        data: [
+                            {
+                                value: notProcessed,
+                                name: '未批改人数'
+                            },
+                            {
+                                value: passNumber,
+                                name: '合格人数'
+                            },
+                            {
+                                value: (totalNumber - notProcessed - passNumber),
+                                name: '不合格人数'
+                            }
+                        ]
+                    }
+                ]
+            };
+            EChart.setOption(option);
         },
 
         //每页条数改变时触发 选择一页显示多少行
@@ -75,9 +122,9 @@ export default {
     },
     created() {
         const token = cookie.get('jwt')
-        axios.get('/statistics/exam/1', { headers: { 'Authorization': token } }).then(res => {
+        axios.get('/statistics/exam', { headers: { 'Authorization': token } }).then(res => {
             console.log(res.data);
-            // this.tableData = res.data;
+            this.tableData = res.data;
         }).catch(res => {
             console.log("触发异常");
             console.log(res)

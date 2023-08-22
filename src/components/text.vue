@@ -1,37 +1,60 @@
 <template>
-  <el-table ref="multipleTable" :data="files" tooltip-effect="dark" style="width: 100%">
-    <el-table-column label="文件大小" show-overflow-tooltip prop="size">
-    </el-table-column>
-    <el-table-column label="上传日期">
-      <template slot-scope="scope">{{ scope.row.create_time }}</template>
-    </el-table-column>
-    <el-table-column label="">
-      <template slot-scope="scope">
-        <el-button @click="open(scope.$index, scope.row)">按钮</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+    <div class="text">
+        <!-- <div id="EChart" style="width: 300px; height: 300px;"></div> -->
+        <!-- <div id="EChart2" style="width: 300px; height: 300px;"></div> -->
+        <div ref="EChart" style="width: 300px; height: 300px;"></div>
+    </div>
 </template>
  
 <script>
 export default {
-  data() {
-    return {
-      files:[{
-            create_time:"2020-07-12",
-            size: 324156
-        },{
-            create_time:"2020-07-11",
-            size: 348921
-        }]
-    }
-  },
-  methods: {
-    open(index, row){
-      console.log(index);
-      console.log(row.create_time);
-      // console.log(scope.row.create_time);
-    }
-  }
-};
+    name: "text",
+    data() {
+        return {
+            notProcessed: 3,
+            passNumber: 5,
+            totalNumber: 10
+        }
+    },
+    methods: {
+        getRenderer() {
+            // console.log(this.$echarts);
+            // 基于准备好的dom，初始化echarts实例
+            // let EChart = this.$echarts.init(document.getElementById("EChart"));
+            // let EChart2 = this.$echarts.init(document.getElementById("EChart2"));
+            let EChart = this.$echarts.init(this.$refs.EChart);
+
+            // 配置参数
+            let config =
+            {
+                type: 'pie',
+                series: [
+                    {
+                        value: this.notProcessed,
+                        name: '未批改人数'
+                    },
+                    {
+                        value: this.passNumber,
+                        name: '合格人数'
+                    },
+                    {
+                        value: (this.totalNumber - this.notProcessed - this.passNumber),
+                        name: '不合格人数'
+                    }
+                ],
+            }
+
+
+            // 设置参数
+            EChart.setOption(config);
+            // EChart2.setOption(config[1]);
+
+        },
+    },
+    mounted() {
+        this.getRenderer();
+    },
+}
 </script>
+
+<style></style>

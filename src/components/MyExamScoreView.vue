@@ -2,7 +2,7 @@
     <div style="width: 100%; margin: auto; background-color: #fff;">
         <el-form :model="CorrectPaper" ref="CorrectPaper" label-position="left" style="text-align: center;">
             <div v-for="(item, index) in CorrectPaper.questions" :key="index"
-                style="width: 450px; margin:auto; padding: 10px;">
+                style="width: 450px; margin:auto; padding: 1px 5px;">
 
                 <!-- 题干 -->
                 <p>{{ item.content }} ({{ item.point }}分)</p>
