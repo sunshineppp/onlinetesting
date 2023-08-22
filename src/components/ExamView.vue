@@ -13,14 +13,20 @@
         </el-col>
         <el-col :span="16">
             <el-form :model="form" ref="form" label-position="right">
-                <div v-for="(question, index_q) in testPaper" :key="index_q">
-                    <p>{{ question.content }}</p>
-                    <div v-show="question.type == 'singleChoice' || question.type == 'trueOrFalse'">
+                <div v-for="(question, index_q) in testPaper" :key="index_q"
+                    style="width: 600px; margin:auto; padding: 1px 5px;">
+                    <p>{{ question.content }} ({{ question.point }}分)</p>
+                    <div v-show="question.type == 'singleChoice' || question.type == 'trueOrFalse'" style="
+                        text-align: left;
+                        padding-left: 50px;
+                    ">
                         <el-form-item :prop="`questions[${index_q}].answer`"
                             :rules="{ required: true, message: '请选择选项', trigger: 'change' }">
                             <el-radio-group v-model="form.questions[index_q].answer">
-                                <el-radio v-for="answer in question.answers" :label="answer.id.toString()">{{ answer.content
-                                }}</el-radio>
+                                <div v-for="answer in question.answers">
+                                    <el-radio :label="answer.id.toString()">{{ answer.content
+                                    }}</el-radio>
+                                </div>
                             </el-radio-group>
                         </el-form-item>
                     </div>
@@ -28,9 +34,12 @@
                     <div v-show="question.type == 'shortAnswer'">
                         <el-form-item :prop="`questions[${index_q}].answer`"
                             :rules="{ required: true, message: '请填写主观题', trigger: 'blur' }">
-                            <el-input v-model="form.questions[index_q].answer" placeholder="请做答"></el-input>
+                            <el-input type="textarea" :rows="2" v-model="form.questions[index_q].answer" placeholder="请做答" style="width: 60%;"></el-input>
                         </el-form-item>
                     </div>
+
+                    <!-- 分割线 -->
+                    <el-divider></el-divider>
                 </div>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm('form')">交 卷</el-button>
