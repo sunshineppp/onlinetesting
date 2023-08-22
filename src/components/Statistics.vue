@@ -15,6 +15,7 @@
             <el-table-column prop="name" label="考试名称" width="150">
             </el-table-column>
             <el-table-column prop="created" label="创建日期" width="150">
+                <template slot-scope="scope">{{ dateTranslate(scope.row.created) }}</template>
             </el-table-column>
             <el-table-column prop="duration" label="考试时长" width="150">
             </el-table-column>
@@ -121,6 +122,11 @@ export default {
                 ]
             };
             EChart.setOption(option2);
+        },
+
+        dateTranslate(d) {
+            let date = new Date(Date.parse(d))
+            return `${date.getUTCFullYear()} 年 ${date.getUTCMonth() + 1} 月 ${date.getUTCDate()} 日`
         },
 
         //每页条数改变时触发 选择一页显示多少行
