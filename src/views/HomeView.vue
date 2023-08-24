@@ -5,7 +5,7 @@
       <div class="form-wrapper">
         <input type="text" name="username" placeholder="username" class="input-item" v-model="username">
         <input type="password" name="password" placeholder="password" class="input-item" v-model="password"
-          @keyup.enter="open">
+          @keyup.enter="login()">
         <div class="btn" @click="login()">Login</div>
       </div>
       <div class="msg">
@@ -81,22 +81,28 @@ export default {
           'password': this.password
         }
       }).then(res => {
-        console.log(res.headers);
+        console.log(res);
+        // console.log(res.headers);
         this.$notify({
           title: '登录成功',
           message: '你好!' + this.username,
           type: 'success',
           position: 'bottom-right'
         });
-        router.push({ path: 'user' }); //传值失败
-      }).catch(reason => {
+        router.push({ path: '/user' }); //传值失败
+      }).catch(res => {
         console.log("异常触发");
-        console.log(reason);
-        this.$notify.error({
-          title: '登录失败',
-          message: '用户名或密码错误',
-          position: 'bottom-right'
-        });
+        console.log(res.response.status);
+        if (res.response.status == 401) {
+          this.$notify.error({
+            title: '登录失败',
+            message: '用户名或密码错误',
+            position: 'bottom-right'
+          });
+        }else if(res.response.status == 400){
+          router.push({path: '/home'});
+          alert('登录过期！');
+        }
       })
     },
 

@@ -2,7 +2,7 @@
   <el-container class="user">
 
     <el-aside width="200px">
-      <div style="height: 30px; padding: 15px 0px;">在线考试系统</div>
+      <div style="height: 30px; padding: 15px 0px;"><b>在线考试系统</b></div>
       <el-menu :default-openeds="['1']">
         <el-submenu index="1">
           <template slot="title"><i class="el-icon-menu"></i>导航</template>

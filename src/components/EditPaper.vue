@@ -11,17 +11,16 @@
                 <el-table-column type="selection"></el-table-column>
                 <el-table-column prop="content" label="题干">
                 </el-table-column>
-                <el-table-column prop="type" label="题型">
+                <el-table-column prop="type" label="题型"
+                    :filters="[{ text: '单选题', value: '单选题' }, { text: '判断题', value: '判断题' }, { text: '简答题', value: '简答题' }]"
+                    :filter-method="filterHandler">
                 </el-table-column>
                 <el-table-column prop="point" label="分值"></el-table-column>
             </el-table>
         </el-form-item>
         <el-form-item>
-            <el-tooltip v-if="this.$route.params.paper_id !== undefined" 
-                class="box-item" 
-                effect="light" 
-                content="撤销当前选择，显示当前试卷中已经包含的题目" 
-                placement="bottom">
+            <el-tooltip v-if="this.$route.params.paper_id !== undefined" class="box-item" effect="light"
+                content="撤销当前选择，显示当前试卷中已经包含的题目" placement="bottom">
                 <el-button @click="show()" icon="el-icon-search">显示</el-button>
             </el-tooltip>
             <el-button type="primary" @click="submit('newPaper')">提交</el-button>
@@ -56,6 +55,12 @@ export default {
         }
     },
     methods: {
+        //题目筛选
+        filterHandler(value, row, column) {
+            const property = column['property'];
+            return row[property] === value;
+        },
+
         show() {
             if (JSON.stringify(this.questionID.sort()) !== JSON.stringify(this.oldQuestionID.sort())) {
                 this.$refs.questionTable.clearSelection()
@@ -137,6 +142,8 @@ export default {
                     question.type = questionTypeMap.get(question.type)
                     return question
                 })
+                console.log(this.questions)
+
 
                 let id = this.$route.params.paper_id
                 if (id !== undefined) {

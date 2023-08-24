@@ -3,7 +3,6 @@
         <el-table :data="tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)" style="
                 width: 100%;
                 margin: auto;
-                margin-top: 20px;
                 max-height: 500px;
             ">
             <el-table-column fixed prop="exam_name" label="考试名称" width="150">

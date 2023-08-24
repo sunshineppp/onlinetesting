@@ -1,7 +1,7 @@
 <template>
   <div class="questions">
 
-    <el-header style="background-color: #fff;">
+    <el-header style="background-color: #fff; margin: 0px 0px 10px 0px;">
       <!-- dialogForm -->
       <div style="margin-right: 10px; text-align: right;">
         <el-button type="primary" round @click="resetForm2()">添加</el-button>
@@ -76,14 +76,18 @@
     <!-- slice(a,b)的作用是从已有的数组中返回选定的元素"a"表示开始，"b"表示结束。 -->
     <el-table :data="tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)" @row-click="handle" style="width: 100%;
       margin: auto;
-      margin: 10px 0px;
+      /* margin: 10px 0px; */
       box-shadow: 0px 5px 10px rgba(0, 0, 0, .12), 0px 5px 10px rgba(0, 0, 0, .04); " max-height="500">
 
       <el-table-column prop="content" label="题干" width="450">
       </el-table-column>
-      <el-table-column prop="type_2" label="题型" width="100">
+      <el-table-column prop="type_2" label="题型" width="100"
+        :filters="[{ text: '选择题', value: '选择题' }, { text: '判断题', value: '判断题' }, { text: '主观题', value: '主观题' }]"
+        :filter-method="filterHandler">
       </el-table-column>
-      <el-table-column prop="level" label="难度" width="100">
+      <el-table-column prop="level" label="难度" width="100"
+        :filters="[{ text: '简单', value: 'easy'}, { text:'中等', value: 'medium'},{text:'困难',value:'hard'}]"
+        :filter-method="filterHandler">
         <template slot-scope="scope">{{ mapLevel(scope.row.level) }}</template>
       </el-table-column>
       <el-table-column prop="point" label="分值" width="100">
@@ -172,28 +176,34 @@ export default {
     //获取试题信息
     getTabelInfo() {
       const token = cookie.get('jwt')
-      axios.get('/question/', {headers: {'Authorization': token}}).then(res => {
+      axios.get('/question/', { headers: { 'Authorization': token } }).then(res => {
         // console.log(res.data);
         this.tableData = res.data;//将后台传递的数组赋值给定义的空数组
         for (let i in this.tableData) {
           this.tableData[i].type_2 = this.typeName(this.tableData[i].type);
           // this.tableData[i].level = questionLevelMap.get(this.tableData[i].level)
-          for(let j=0;j<this.tableData[i].answers.length;j++){
-            if(this.tableData[i].answers[j].correct == 1){
-              this.tableData[i].radio = j+1;
+          for (let j = 0; j < this.tableData[i].answers.length; j++) {
+            if (this.tableData[i].answers[j].correct == 1) {
+              this.tableData[i].radio = j + 1;
             }
           }
         }
-        // console.log(this.tableData)//检查一下数组内是否有数据
+        console.log(this.tableData)//检查一下数组内是否有数据
       }).catch(res => {
         console.log("异常触发");
         console.log(res);//发生错误时执行的代码
       })
     },
 
+    //题目筛选
+    filterHandler(value, row, column) {
+      const property = column['property'];
+      return row[property] === value;
+    },
+
     addQuestions() {
       const token = cookie.get('jwt')
-      axios.post('/question/create', this.form, {headers: {'Authorization': token}}).then(res => {
+      axios.post('/question/create', this.form, { headers: { 'Authorization': token } }).then(res => {
         alert('添加成功!');
         this.getTabelInfo();
         this.dialogFormVisible = false;
@@ -206,7 +216,7 @@ export default {
     //修改试题
     reviseQuestions(id) {
       const token = cookie.get('jwt')
-      axios.post('/question/update/' + id, this.form, {headers: {'Authorization': token}}).then(res => {
+      axios.post('/question/update/' + id, this.form, { headers: { 'Authorization': token } }).then(res => {
         alert('修改成功!');
         this.getTabelInfo();
         this.dialogFormVisible = false;
@@ -220,7 +230,7 @@ export default {
     deleteQuestions(id) {
       const token = cookie.get('jwt')
       console.log(this.id);
-      axios.delete('/question/delete/' + id, {headers: {'Authorization': token}}).then(res => {
+      axios.delete('/question/delete/' + id, { headers: { 'Authorization': token } }).then(res => {
         alert('删除成功!');
         this.getTabelInfo();
       }).catch(res => {
@@ -383,10 +393,10 @@ export default {
     "form.radio"(newQuestion, oldQuestion) {
       if (this.form.radio != '') {
         // console.log("ok");
-        for(let i = 0;i<this.form.answers.length;i++){
+        for (let i = 0; i < this.form.answers.length; i++) {
           this.form.answers[i].correct = 0;
         }
-        this.form.answers[(this.form.radio)-1].correct = 1;
+        this.form.answers[(this.form.radio) - 1].correct = 1;
       }
     },
   },

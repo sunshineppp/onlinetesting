@@ -1,13 +1,14 @@
 <template>
     <div class="statistics">
+        <!-- <div ref="bar" style="width: 100px; height: 150px;"></div> -->
+
         <el-dialog title="View" :visible.sync="dialogVisible" @open="open()" append-to-body>
-            <div ref="EChart" style="width: 550px; height: 300px;"></div>
+            <div ref="pie" style="width: 550px; height: 300px;"></div>
         </el-dialog>
 
         <el-table :data="tableData.slice((currentPage - 1) * pageSize, currentPage * pageSize)" style="
                 width: 100%;
                 margin: auto;
-                margin-top: 20px;
                 max-height: 500px;
             ">
             <el-table-column fixed prop="id" label="试卷编号" width="100">
@@ -66,7 +67,21 @@ export default {
             pageSize: 5, // 每页的数据数条
             option1:
             {
-
+                xAxis: {
+                    axisLine: {
+                        lineStyle: {
+                            width: 5
+                        }
+                    },
+                    data: ['a', 'b', 'c']
+                },
+                yAxis: {},
+                series: [
+                    {
+                        type: 'bar',
+                        data: [100, 200, 150]
+                    }
+                ]
             }
         }
     },
@@ -83,7 +98,7 @@ export default {
             }, 0);
         },
         drawLine(notProcessed, passNumber, totalNumber) {
-            let EChart = this.$echarts.init(this.$refs.EChart);
+            let EChart = this.$echarts.init(this.$refs.pie);
             let option2 =
             {
                 legend: {
@@ -146,6 +161,8 @@ export default {
         axios.get('/statistics/exam', { headers: { 'Authorization': token } }).then(res => {
             console.log(res.data);
             this.tableData = res.data;
+            // let EChart = this.$echarts.init(this.$refs.bar);
+            // EChart.setOption(this.option1);
         }).catch(res => {
             console.log("触发异常");
             console.log(res)
